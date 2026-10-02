@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AXIOM QUANT — Algorithmic Trading Infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080c;
+    --bg-2:#0b0d14;
+    --panel:#0f1118;
+    --line:rgba(255,255,255,0.08);
+    --line-2:rgba(255,255,255,0.14);
+    --text:#e7e9ee;
+    --muted:#8a8f9c;
+    --accent:#7cf5d1;
+    --accent-2:#5aa9ff;
+    --danger:#ff6b6b;
+    --gold:#e8c97a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'JetBrains Mono',monospace;letter-spacing:-0.01em}
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  /* Background grid */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse at 50% 0%, black 40%, transparent 80%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(800px 500px at 80% -10%, rgba(124,245,209,0.08), transparent 60%),
+      radial-gradient(600px 400px at 0% 20%, rgba(90,169,255,0.06), transparent 60%);
+  }
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(7,8,12,0.7);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;max-width:1280px;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:0.02em}
+  .logo-mark{width:28px;height:28px;border:1.5px solid var(--accent);border-radius:6px;position:relative;display:flex;align-items:center;justify-content:center}
+  .logo-mark::before{content:"";position:absolute;inset:5px;border:1px solid var(--accent);border-radius:3px;transform:rotate(45deg)}
+  .logo-mark::after{content:"";width:4px;height:4px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent)}
+  .nav-links{display:flex;gap:32px;font-size:14px;color:var(--muted)}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border-radius:8px;font-size:14px;font-weight:500;
+    border:1px solid var(--line-2);background:transparent;color:var(--text);
+    cursor:pointer;transition:all .2s;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn-primary{
+    background:var(--accent);color:#04100c;border-color:var(--accent);font-weight:600;
+  }
+  .btn-primary:hover{background:#9ff8dd;color:#04100c}
+
+  /* HERO */
+  .hero{position:relative;z-index:1;padding:120px 0 80px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:6px 14px;border:1px solid var(--line-2);border-radius:100px;
+    font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;
+    margin-bottom:28px;
+  }
+  .eyebrow .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  h1{
+    font-size:clamp(40px,6vw,84px);line-height:1.02;font-weight:700;
+    letter-spacing:-0.03em;margin-bottom:28px;
+  }
+  h1 .grad{
+    background:linear-gradient(120deg,var(--accent) 0%,var(--accent-2) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-sub{font-size:18px;color:var(--muted);max-width:640px;line-height:1.6;margin-bottom:40px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:64px}
+  .btn-lg{padding:14px 24px;font-size:15px}
+
+  /* Hero stats */
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+  }
+  .stat{padding:28px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;font-family:'JetBrains Mono',monospace;margin-bottom:12px}
+  .stat-value{font-size:32px;font-weight:600;letter-spacing:-0.02em;font-family:'JetBrains Mono',monospace}
+  .stat-value .up{color:var(--accent);font-size:14px;margin-left:6px}
+
+  /* SECTION HEADERS */
+  section{position:relative;z-index:1;padding:100px 0}
+  .section-head{margin-bottom:64px;max-width:720px}
+  .section-tag{
+    font-size:12px;color:var(--accent);font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px;
+  }
+  .section-title{font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:20px}
+  .section-desc{font-size:17px;color:var(--muted);line-height:1.6}
+
+  /* POWERED BY QUANTUM TECH */
+  .quantum{
+    border:1px solid var(--line);border-radius:16px;padding:48px;
+    background:linear-gradient(135deg,rgba(124,245,209,0.04),rgba(90,169,255,0.02));
+    position:relative;overflow:hidden;
+  }
+  .quantum::before{
+    content:"";position:absolute;top:-100px;right:-100px;width:400px;height:400px;
+    background:radial-gradient(circle,rgba(124,245,209,0.08),transparent 70%);
+  }
+  .quantum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px;position:relative}
+  .q-card{padding:24px;border:1px solid var(--line);border-radius:12px;background:rgba(7,8,12,0.5);transition:all .3s}
+  .q-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .q-icon{
+    width:40px;height:40px;border-radius:8px;
+    background:linear-gradient(135deg,rgba(124,245,209,0.15),rgba(90,169,255,0.1));
+    border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;
+    margin-bottom:18px;
+  }
+  .q-card h3{font-size:16px;font-weight:600;margin-bottom:10px}
+  .q-card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+  /* ALGO/OS */
+  .algo{
+    border:1px solid var(--line);border-radius:16px;padding:56px;
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+  }
+  .algo-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:24px}
+  .algo-title{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-0.02em;line-height:1.15;max-width:600px}
+  .algo-title em{font-style:normal;color:var(--accent)}
+  .algo-sub{font-size:15px;color:var(--muted);max-width:400px;line-height:1.6}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+  .steps::before{
+    content:"";position:absolute;top:36px;left:10%;right:10%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--line-2) 20%,var(--line-2) 80%,transparent);
+  }
+  .step{padding:0 24px;position:relative}
+  .step-num{
+    width:72px;height:72px;border-radius:50%;
+    background:var(--bg);border:1px solid var(--line-2);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;
+    color:var(--accent);margin-bottom:28px;position:relative;z-index:2;
+    transition:all .3s;
+  }
+  .step:hover .step-num{border-color:var(--accent);box-shadow:0 0 30px rgba(124,245,209,0.2)}
+  .step h3{font-size:13px;color:var(--accent);font-family:'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .step-title{font-size:22px;font-weight:600;margin-bottom:14px;letter-spacing:-0.01em}
+  .step p{font-size:14px;color:var(--muted);line-height:1.7}
+
+  .lineage{
+    margin-top:48px;padding:28px;border:1px solid var(--line);border-radius:12px;
+    background:rgba(7,8,12,0.6);display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .lineage-item{display:flex;gap:14px;align-items:flex-start}
+  .lineage-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;margin-top:6px;flex-shrink:0;box-shadow:0 0 10px var(--accent)}
+  .lineage-item h4{font-size:14px;font-weight:600;margin-bottom:4px}
+  .lineage-item p{font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* AI CAPABILITIES */
+  .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .cap{
+    padding:28px;border:1px solid var(--line);border-radius:12px;
+    background:var(--panel);transition:all .3s;position:relative;overflow:hidden;
+  }
+  .cap::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    opacity:0;transition:opacity .3s;
+  }
+  .cap:hover{border-color:var(--line-2);transform:translateY(-2px)}
+  .cap:hover::before{opacity:1}
+  .cap-icon{
+    width:44px;height:44px;border-radius:10px;
+    background:rgba(124,245,209,0.08);border:1px solid var(--line-2);
+    display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+    color:var(--accent);
+  }
+  .cap h3{font-size:17px;font-weight:600;margin-bottom:10px;letter-spacing:-0.01em}
+  .cap p{font-size:14px;color:var(--muted);line-height:1.6}
+
+  /* PERFORMANCE / NIFTY */
+  .perf-wrap{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:24px;
+  }
+  .chart-panel{
+    border:1px solid var(--line);border-radius:16px;padding:32px;
+    background:var(--panel);
+  }
+  .chart-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap;gap:16px}
+  .chart-title{font-size:18px;font-weight:600;margin-bottom:6px}
+  .chart-sub{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+  .legend{display:flex;gap:20px;font-size:13px}
+  .legend-item{display:flex;align-items:center;gap:8px;color:var(--muted)}
+  .legend-dot{width:10px;height:3px;border-radius:2px}
+  .chart-svg{width:100%;height:320px;display:block}
+  .chart-foot{
+    margin-top:24px;padding-top:24px;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  .chart-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+  .chart-stat-val{font-size:20px;font-weight:600;font-family:'JetBrains Mono',monospace}
+  .chart-stat-val.pos{color:var(--accent)}
+  .chart-stat-val.neg{color:var(--danger)}
+
+  .perf-side{display:flex;flex-direction:column;gap:20px}
+  .perf-card{
+    border:1px solid var(--line);border-radius:14px;padding:24px;
+    background:var(--panel);flex:1;
+  }
+  .perf-card h4{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px}
+  .perf-big{font-size:36px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:-0.02em;margin-bottom:4px}
+  .perf-big.pos{color:var(--accent)}
+  .perf-delta{font-size:13px;color:var(--muted)}
+  .perf-delta b{color:var(--accent);font-weight:500}
+
+  /* VERIFIED P&L */
+  .verified{
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+    position:relative;
+  }
+  .verified-head{padding:40px 40px 0;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px}
+  .verified-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px;border:1px solid rgba(124,245,209,0.3);border-radius:100px;
+    font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;
+    background:rgba(124,245,209,0.05);
+  }
+  .verified-tag svg{width:12px;height:12px}
+  .verified-title{font-size:clamp(26px,3vw,36px);font-weight:700;letter-spacing:-0.02em;margin-bottom:12px;max-width:600px}
+  .verified-desc{font-size:15px;color:var(--muted);max-width:520px;line-height:1.6}
+
+  .metrics-grid{
+    padding:32px 40px;display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:32px;
+  }
+  .metric{padding:20px;border-right:1px solid var(--line)}
+  .metric:last-child{border-right:none}
+  .metric-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;font-family:'JetBrains Mono',monospace;margin-bottom:10px}
+  .metric-value{font-size:26px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:-0.02em}
+  .metric-value.pos{color:var(--accent)}
+  .metric-sub{font-size:12px;color:var(--muted);margin-top:4px;font-family:'JetBrains Mono',monospace}
+
+  .verified-chart{padding:32px 40px}
+  .verified-chart-title{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px}
+
+  .access-gate{
+    padding:32px 40px 40px;display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:20px;border-top:1px solid var(--line);
+    background:rgba(124,245,209,0.02);
+  }
+  .gate-text{max-width:520px}
+  .gate-text h4{font-size:17px;font-weight:600;margin-bottom:6px}
+  .gate-text p{font-size:14px;color:var(--muted);line-height:1.6}
+
+  /* CTA */
+  .cta{
+    border:1px solid var(--line);border-radius:16px;padding:72px 48px;text-align:center;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(124,245,209,0.08), transparent 70%),
+      var(--panel);
+    position:relative;overflow:hidden;
+  }
+  .cta h2{font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-0.02em;margin-bottom:20px;line-height:1.1}
+  .cta p{font-size:17px;color:var(--muted);max-width:560px;margin:0 auto 36px;line-height:1.6}
+  .cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:48px 0 32px;position:relative;z-index:1}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px}
+  .foot-brand p{font-size:14px;color:var(--muted);line-height:1.6;margin-top:16px;max-width:320px}
+  .foot-col h5{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;font-family:'JetBrains Mono',monospace;margin-bottom:16px}
+  .foot-col a{display:block;font-size:14px;color:var(--text);padding:6px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--accent)}
+  .foot-bottom{padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+  /* MODAL */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+    z-index:100;display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-backdrop.active{display:flex}
+  .modal{
+    background:var(--panel);border:1px solid var(--line-2);border-radius:16px;
+    max-width:480px;width:100%;padding:40px;position:relative;
+  }
+  .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:24px;line-height:1}
+  .modal h3{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em}
+  .modal p{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em}
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--line-2);
+    border-radius:8px;color:var(--text);font-family:inherit;font-size:14px;transition:border-color .2s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+  .field textarea{resize:vertical;min-height:80px}
+  .modal .btn-primary{width:100%;justify-content:center;margin-top:8px;padding:14px}
+
+  /* Responsive */
+  @media(max-width:960px){
+    .nav-links{display:none}
+    .hero-stats{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(2){border-right:none}
+    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
+    .quantum-grid{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:1fr;gap:40px}
+    .steps::before{display:none}
+    .lineage{grid-template-columns:1fr}
+    .cap-grid{grid-template-columns:1fr}
+    .perf-wrap{grid-template-columns:1fr}
+    .metrics-grid{grid-template-columns:repeat(2,1fr)}
+    .metric:nth-child(2){border-right:none}
+    .metric:nth-child(1),.metric:nth-child(2){border-bottom:1px solid var(--line)}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .algo{padding:32px}
+    .quantum{padding:32px}
+    .verified-head,.metrics-grid,.verified-chart,.access-gate{padding-left:24px;padding-right:24px}
+  }
+  @media(max-width:560px){
+    .container{padding:0 20px}
+    .quantum-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .metrics-grid{grid-template-columns:1fr}
+    .metric{border-right:none;border-bottom:1px solid var(--line)}
+    .metric:last-child{border-bottom:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark"></span>
+      <span>AXIOM<span style="color:var(--accent)">.</span>QUANT</span>
+    </a>
+    <div class="nav-links">
+      <a href="#platform">Platform</a>
+      <a href="#algo">ALGO/OS</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#performance">Performance</a>
+      <a href="#verified">Verified P&L</a>
+    </div>
+    <button class="btn btn-primary" onclick="openModal()">Request Access →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow"><span class="dot"></span>LIVE SYSTEMS · 14 STRATEGIES DEPLOYED · 247ms avg. latency</div>
+    <h1>Quantitative trading,<br/><span class="grad">engineered at the edge</span><br/>of intelligence.</h1>
+    <p class="hero-sub">We are a systematic trading firm deploying AI, machine learning, and quantum-inspired algorithms across global markets. One unified operating system — from thesis to execution.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary btn-lg" onclick="openModal()">Request Access →</button>
+      <a href="#platform" class="btn btn-lg">Explore Platform</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-label">YTD Return</div>
+        <div class="stat-value">+47.3%<span class="up">▲</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Sharpe Ratio</div>
+        <div class="stat-value">3.21</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Max Drawdown</div>
+        <div class="stat-value">-6.8%</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Win Rate</div>
+        <div class="stat-value">68.4%</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- POWERED BY QUANTUM TECH -->
+<section id="platform">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">// Infrastructure</div>
+      <h2 class="section-title">Powered by Quantum Tech</h2>
+      <p class="section-desc">Our cutting-edge infrastructure combines AI, machine learning, and quantum-inspired algorithms for unparalleled trading performance.</p>
+    </div>
+
+    <div class="quantum">
+      <div class="quantum-grid">
+        <div class="q-card">
+          <div class="q-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--accent)"><path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/><path d="M6 12v2a6 6 0 0 0 12 0v-2"/><path d="M12 18v4"/><path d="M8 22h8"/></svg>
+          </div>
+          <h3>AI-Powered Analysis</h3>
+          <p>Neural networks analyze millions of data points in milliseconds to identify profitable patterns.</p>
+        </div>
+        <div class="q-card">
+          <div class="q-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--accent)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3>Lightning Execution</h3>
+          <p>Sub-millisecond trade execution with direct market access to major exchanges worldwide.</p>
+        </div>
+        <div class="q-card">
+          <div class="q-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--accent)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3>Bank-Grade Security</h3>
+          <p>256-bit encryption, cold storage, and multi-signature protocols protect your assets.</p>
+        </div>
+        <div class="q-card">
+          <div class="q-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--accent)"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+          </div>
+          <h3>Advanced Analytics</h3>
+          <p>Real-time dashboards with 50+ technical indicators and customizable alerts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALGO/OS -->
+<section id="algo">
+  <div class="container">
+    <div class="algo">
+      <div class="algo-head">
+        <div>
+          <div class="section-tag">// ALGO/OS</div>
+          <h2 class="algo-title">From thesis to trade. <em>One system.</em></h2>
+        </div>
+        <p class="algo-sub">Stop stitching together brittle tools. ALGO/OS gives every model, market, and mandate a shared language — with intelligence embedded at every layer.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num mono">01</div>
+          <h3>Research.</h3>
+          <div class="step-title">Hypothesis → Signal</div>
+          <p>Turn market hypotheses into validated signals with an AI research layer that reads structure, regime, and context.</p>
+        </div>
+        <div class="step">
+          <div class="step-num mono">02</div>
+          <h3>Orchestrate.</h3>
+          <div class="step-title">Compose. No black boxes.</div>
+          <p>Compose models, execution rules, and risk limits into transparent strategy graphs. Every decision is auditable.</p>
+        </div>
+        <div class="step">
+          <div class="step-num mono">03</div>
+          <h3>Deploy.</h3>
+          <div class="step-title">Route. Control. Verify.</div>
+          <p>Route globally through low-latency infrastructure with continuous health checks and deterministic controls.</p>
+        </div>
+      </div>
+
+      <div class="lineage">
+        <div class="lineage-item">
+          <div class="lineage-dot"></div>
+          <div>
+            <h4>Complete decision lineage</h4>
+            <p>Every decision arrives with evidence: contributing signals, regime context, confidence, and policy checks.</p>
+          </div>
+        </div>
+        <div class="lineage-item">
+          <div class="lineage-dot"></div>
+          <div>
+            <h4>Pre-trade policy enforcement</h4>
+            <p>Your team stays in control with hard limits enforced before any order reaches the wire.</p>
+          </div>
+        </div>
+        <div class="lineage-item">
+          <div class="lineage-dot"></div>
+          <div>
+            <h4>Real-time exposure attribution</h4>
+            <p>Live factor decomposition across every position, strategy, and book — down to the signal level.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI CAPABILITIES -->
+<section id="capabilities">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">// Capabilities</div>
+      <h2 class="section-title">Powered by Advanced AI</h2>
+      <p class="section-desc">Our proprietary algorithms analyze millions of data points per second, identifying profitable opportunities before the market reacts.</p>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+        <h3>Neural Network Engine</h3>
+        <p>Advanced deep learning models trained on millions of market patterns to predict price movements with unprecedented accuracy.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="10"/></svg></div>
+        <h3>Quantum Computing Ready</h3>
+        <p>Future-proof infrastructure designed to leverage quantum computing capabilities for complex financial modeling.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
+        <h3>Precision Execution</h3>
+        <p>Sub-millisecond order execution with smart routing to ensure you always get the best available price.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 12l3 3 7-7"/></svg></div>
+        <h3>Real-time Analytics</h3>
+        <p>Live market analysis with customizable dashboards and AI-generated insights for informed decision making.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Military-Grade Security</h3>
+        <p>256-bit encryption, multi-factor authentication, and cold storage for maximum asset protection.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3>Instant Deployment</h3>
+        <p>Deploy your trading strategies in seconds with our intuitive no-code strategy builder.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
+        <h3>Multi-Asset Support</h3>
+        <p>Trade across cryptocurrencies, forex, stocks, and commodities from a single unified platform.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 4 3 5-7"/></svg></div>
+        <h3>Performance Metrics</h3>
+        <p>Comprehensive backtesting and performance tracking with detailed risk analysis reports.</p>
+      </div>
+      <div class="cap">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-6.2-8.55"/><path d="M21 3v6h-6"/></svg></div>
+        <h3>Continuous Learning</h3>
+        <p>Models adapt in real-time to shifting regimes, capturing alpha as market microstructure evolves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERFORMANCE vs NIFTY 50 -->
+<section id="performance">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">// Performance</div>
+      <h2 class="section-title">Outperformance, verified.</h2>
+      <p class="section-desc">Cumulative net returns vs. the NIFTY 50 benchmark. Audited quarterly by independent third-party administrators.</p>
+    </div>
+
+    <div class="perf-wrap">
+      <div class="chart-panel">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Cumulative Return — 36 Months</div>
+            <div class="chart-sub">INCEPTION: OCT 2023 · LIVE · NET OF FEES</div>
+          </div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>AXIOM Fund</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--muted)"></span>NIFTY 50</div>
+          </div>
+        </div>
+
+        <svg class="chart-svg" viewBox="0 0 800 320" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="axiomFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#7cf5d1" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#7cf5d1" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="niftyFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#8a8f9c" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#8a8f9c" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- grid lines -->
+          <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+            <line x1="0" y1="60" x2="800" y2="60"/>
+            <line x1="0" y1="130" x2="800" y2="130"/>
+            <line x1="0" y1="200" x2="800" y2="200"/>
+            <line x1="0" y1="270" x2="800" y2="270"/>
+          </g>
+
+          <!-- Y-axis labels -->
+          <g fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">
+            <text x="4" y="56">+150%</text>
+            <text x="4" y="126">+100%</text>
+            <text x="4" y="196">+50%</text>
+            <text x="4" y="266">0%</text>
+          </g>
+
+          <!-- NIFTY 50 line (more modest) -->
+          <path d="M 40 265 L 90 255 L 140 248 L 190 252 L 240 238 L 290 230 L 340 225 L 390 218 L 440 222 L 490 208 L 540 198 L 590 192 L 640 185 L 690 178 L 740 172 L 780 168"
+                fill="none" stroke="#8a8f9c" stroke-width="2" stroke-dasharray="4 3"/>
+          <path d="M 40 265 L 90 255 L 140 248 L 190 252 L 240 238 L 290 230 L 340 225 L 390 218 L 440 222 L 490 208 L 540 198 L 590 192 L 640 185 L 690 178 L 740 172 L 780 168 L 780 320 L 40 320 Z"
+                fill="url(#niftyFill)"/>
+
+          <!-- AXIOM line (stronger) -->
+          <path d="M 40 265 L 90 248 L 140 232 L 190 220 L 240 198 L 290 180 L 340 162 L 390 148 L 440 132 L 490 118 L 540 102 L 590 88 L 640 76 L 690 62 L 740 52 L 780 42"
+                fill="none" stroke="#7cf5d1" stroke-width="2.5"/>
+          <path d="M 40 265 L 90 248 L 140 232 L 190 220 L 240 198 L 290 180 L 340 162 L 390 148 L 440 132 L 490 118 L 540 102 L 590 88 L 640 76 L 690 62 L 740 52 L 780 42 L 780 320 L 40 320 Z"
+                fill="url(#axiomFill)"/>
+
+          <!-- end dots -->
+          <circle cx="780" cy="42" r="4" fill="#7cf5d1"/>
+          <circle cx="780" cy="42" r="8" fill="#7cf5d1" opacity="0.2"/>
+          <circle cx="780" cy="168" r="3" fill="#8a8f9c"/>
+        </svg>
+
+        <div class="chart-foot">
+          <div>
+            <div class="chart-stat-label">AXIOM YTD</div>
+            <div class="chart-stat-val pos">+47.3%</div>
+          </div>
+          <div>
+            <div class="chart-stat-label">NIFTY 50 YTD</div>
+            <div class="chart-stat-val">+18.6%</div>
+          </div>
+          <div>
+            <div class="chart-stat-label">ALPHA</div>
+            <div class="chart-stat-val pos">+28.7%</div>
+          </div>
+          <div>
+            <div class="chart-stat-label">BETA</div>
+            <div class="chart-stat-val">0.42</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="perf-side">
+        <div class="perf-card">
+          <h4>3Y CAGR</h4>
+          <div class="perf-big pos">+41.8%</div>
+          <div class="perf-delta">vs. NIFTY 50 <b>+16.2%</b></div>
+        </div>
+        <div class="perf-card">
+          <h4>Information Ratio</h4>
+          <div class="perf-big pos">1.84</div>
+          <div class="perf-delta">Consistent outperformance across regimes</div>
+        </div>
+        <div class="perf-card">
+          <h4>Sortino Ratio</h4>
+          <div class="perf-big pos">4.12</div>
+          <div class="perf-delta">Asymmetric return profile — limited downside</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFIED P&L -->
+<section id="verified">
+  <div class="container">
+    <div class="verified">
+      <div class="verified-head">
+        <div>
+          <div class="verified-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            Independently Verified · Oct 2026
+          </div>
+          <h2 class="verified-title">Verified P&L — Master Fund I</h2>
+          <p class="verified-desc">Live performance of our flagship systematic strategy. Figures are net of fees, audited by a Big-4 administrator, and reconciled daily against prime broker statements.</p>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric">
+          <div class="metric-label">YTD Return</div>
+          <div class="metric-value pos">+47.32%</div>
+          <div class="metric-sub">vs NIFTY +18.61%</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Annualized</div>
+          <div class="metric-value pos">+41.8%</div>
+          <div class="metric-sub">3Y CAGR</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Sharpe Ratio</div>
+          <div class="metric-value">3.21</div>
+          <div class="metric-sub">Rf = 6.8%</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Max Drawdown</div>
+          <div class="metric-value">-6.84%</div>
+          <div class="metric-sub">Recovered in 11 days</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Win Rate</div>
+          <div class="metric-value">68.4%</div>
+          <div class="metric-sub">14,208 trades</div>
+        </div>
+      </div>
+
+      <div class="verified-chart">
+        <div class="verified-chart-title">Monthly P&L — Last 12 Months (Net %)</div>
+        <svg viewBox="0 0 800 180" style="width:100%;height:180px;display:block">
+          <!-- zero line -->
+          <line x1="0" y1="90" x2="800" y2="90" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+          <!-- bars -->
+          <g>
+            <!-- Nov -->
+            <rect x="20" y="58" width="40" height="32" fill="#7cf5d1" rx="2"/>
+            <text x="40" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">NOV</text>
+            <text x="40" y="52" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+3.2</text>
+
+            <!-- Dec -->
+            <rect x="85" y="48" width="40" height="42" fill="#7cf5d1" rx="2"/>
+            <text x="105" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">DEC</text>
+            <text x="105" y="42" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+4.1</text>
+
+            <!-- Jan -->
+            <rect x="150" y="66" width="40" height="24" fill="#7cf5d1" rx="2"/>
+            <text x="170" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">JAN</text>
+            <text x="170" y="60" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+2.4</text>
+
+            <!-- Feb -->
+            <rect x="215" y="90" width="40" height="14" fill="#ff6b6b" rx="2"/>
+            <text x="235" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">FEB</text>
+            <text x="235" y="120" text-anchor="middle" fill="#ff6b6b" font-family="JetBrains Mono" font-size="10" dy="10">-1.4</text>
+
+            <!-- Mar -->
+            <rect x="280" y="40" width="40" height="50" fill="#7cf5d1" rx="2"/>
+            <text x="300" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">MAR</text>
+            <text x="300" y="34" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+5.1</text>
+
+            <!-- Apr -->
+            <rect x="345" y="54" width="40" height="36" fill="#7cf5d1" rx="2"/>
+            <text x="365" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">APR</text>
+            <text x="365" y="48" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+3.6</text>
+
+            <!-- May -->
+            <rect x="410" y="72" width="40" height="18" fill="#7cf5d1" rx="2"/>
+            <text x="430" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">MAY</text>
+            <text x="430" y="66" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+1.8</text>
+
+            <!-- Jun -->
+            <rect x="475" y="90" width="40" height="8" fill="#ff6b6b" rx="2"/>
+            <text x="495" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">JUN</text>
+            <text x="495" y="115" text-anchor="middle" fill="#ff6b6b" font-family="JetBrains Mono" font-size="10" dy="10">-0.8</text>
+
+            <!-- Jul -->
+            <rect x="540" y="44" width="40" height="46" fill="#7cf5d1" rx="2"/>
+            <text x="560" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">JUL</text>
+            <text x="560" y="38" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+4.6</text>
+
+            <!-- Aug -->
+            <rect x="605" y="52" width="40" height="38" fill="#7cf5d1" rx="2"/>
+            <text x="625" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">AUG</text>
+            <text x="625" y="46" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+3.8</text>
+
+            <!-- Sep -->
+            <rect x="670" y="62" width="40" height="28" fill="#7cf5d1" rx="2"/>
+            <text x="690" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">SEP</text>
+            <text x="690" y="56" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+2.8</text>
+
+            <!-- Oct -->
+            <rect x="735" y="50" width="40" height="40" fill="#7cf5d1" rx="2"/>
+            <text x="755" y="115" text-anchor="middle" fill="#8a8f9c" font-family="JetBrains Mono" font-size="10">OCT</text>
+            <text x="755" y="44" text-anchor="middle" fill="#7cf5d1" font-family="JetBrains Mono" font-size="10">+4.0</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="access-gate">
+        <div class="gate-text">
+          <h4>Full tear-sheet behind request-only access</h4>
+          <p>Detailed monthly attribution, factor exposure, drawdown analysis, and strategy-level P&L are available to qualified investors under NDA.</p>
+        </div>
+        <button class="btn btn-primary btn-lg" onclick="openModal()">Request Full Access →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta">
+      <h2>Allocation is by invitation only.</h2>
+      <p>We onboard a limited number of qualified investors each quarter. Submit your details and our IR team will respond within 48 hours.</p>
+      <div class="cta-buttons">
+        <button class="btn btn-primary btn-lg" onclick="openModal()">Request Access →</button>
+        <a href="#performance" class="btn btn-lg">View Performance</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark"></span>
+          <span>AXIOM<span style="color:var(--accent)">.</span>QUANT</span>
+        </a>
+        <p>Systematic trading infrastructure for the next generation of capital allocators. Registered investment advisor. Member SIPC.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Platform</h5>
+        <a href="#platform">Infrastructure</a>
+        <a href="#algo">ALGO/OS</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#performance">Performance</a>
+      </div>
+      <div class="foot-col">
+        <h5>Firm</h5>
+        <a href="#">About</a>
+        <a href="#">Research</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="#">Disclosures</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Form ADV</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 AXIOM QUANT CAPITAL LLP · ALL RIGHTS RESERVED</div>
+      <div>PAST PERFORMANCE IS NOT INDICATIVE OF FUTURE RESULTS.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3>Request Access</h3>
+    <p>Access to our fund, full tear-sheet, and platform demo is available to qualified investors only. We'll respond within 48 hours.</p>
+    <form onsubmit="submitForm(event)">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" required placeholder="Jane Doe"/>
+      </div>
+      <div class="field">
+        <label>Institutional Email</label>
+        <input type="email" required placeholder="jane@firm.com"/>
+      </div>
+      <div class="field">
+        <label>Organization</label>
+        <input type="text" required placeholder="Family Office / Fund / HNW"/>
+      </div>
+      <div class="field">
+        <label>Indicative Allocation (USD)</label>
+        <select required>
+          <option value="">Select range</option>
+          <option>$250K – $1M</option>
+          <option>$1M – $5M</option>
+          <option>$5M – $25M</option>
+          <option>$25M+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Message (optional)</label>
+        <textarea placeholder="Tell us about your allocation goals..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit Request →</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(){document.getElementById('modal').classList.add('active')}
+  function closeModal(){document.getElementById('modal').classList.remove('active')}
+  document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+  function submitForm(e){
+    e.preventDefault();
+    const modal=document.querySelector('.modal');
+    modal.innerHTML=`
+      <div style="text-align:center;padding:20px 0">
+        <div style="width:60px;height:60px;border-radius:50%;background:rgba(124,245,209,0.1);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7cf5d1" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3 style="margin-bottom:10px">Request received.</h3>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6">Our investor relations team will reach out within 48 hours. Check your inbox for a confirmation.</p>
+        <button class="btn" style="margin-top:24px" onclick="closeModal();setTimeout(()=>location.reload(),300)">Close</button>
+      </div>`;
+  }
+  // smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+    });
+  });
+</script>
+
+</body>
+</html>

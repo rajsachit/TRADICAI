@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>TRADICAI — Algorithmic Trading Infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Lora:ital,wght@1,400;1,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f7f7f8;color:#121218;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#121218;text-decoration:none}
+a:hover{color:#ff5533}
+input,select,textarea,button{font-family:inherit}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:50;background:rgba(247,247,248,0.82);backdrop-filter:blur(12px);border-bottom:1px solid #e0e2e6">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="#" style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-0.01em;flex-shrink:0;white-space:nowrap">
+      <span style="width:28px;height:28px;border-radius:8px;background:#ff5533;display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border:2px solid #fff;border-radius:2px;transform:rotate(45deg)"></span></span>
+      <span>TRADIC<span style="color:#ff5533">AI</span></span>
+    </a>
+    <div style="flex:1;min-width:0;display:flex;justify-content:center;gap:6px 20px;font-size:14px;flex-wrap:wrap">
+      <a href="#platform" style="color:#61646b">Platform</a>
+      <a href="#algo" style="color:#61646b">ALGO/OS</a>
+      <a href="#capabilities" style="color:#61646b">Capabilities</a>
+      <a href="#performance" style="color:#61646b">Performance</a>
+      <a href="Backtest%20Report.dc.html" style="color:#61646b">Backtest</a>
+    </div>
+    <button onClick="{{ openModal }}" style="padding:9px 16px;border-radius:10px;border:1px solid #ff5533;background:#ff5533;color:#fff;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0" style-hover="background:#e8431f">Request Access →</button>
+  </div>
+</nav>
+
+<header style="position:relative;overflow:hidden;min-height:min(92vh,880px);display:flex;flex-direction:column;justify-content:space-between;background:#f7f7f8">
+  <video src="uploads/apul.mp4" ref="{{ videoRef }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center"></video>
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(247,247,248,0.55) 0%,rgba(247,247,248,0.15) 45%,rgba(247,247,248,0) 70%)"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:38%;pointer-events:none;background:linear-gradient(180deg,rgba(247,247,248,0) 0%,rgba(247,247,248,0.85) 60%,#f7f7f8 100%)"></div>
+  <div style="position:relative;max-width:1200px;width:100%;margin:0 auto;padding:clamp(64px,10vw,120px) 24px 0;display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+    <h1 style="font-size:clamp(40px,5vw,68px);line-height:1.04;font-weight:500;letter-spacing:-0.04em;color:#121218;max-width:620px;text-wrap:balance">Quantitative trading, <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">engineered at the edge</span> of intelligence.</h1>
+    <p style="font-size:17px;line-height:1.55;color:#3d4047;max-width:440px;text-wrap:pretty">We are a systematic trading firm deploying AI, machine learning, and quantum-inspired algorithms across global markets. One unified operating system — from thesis to execution.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button onClick="{{ openModal }}" style="padding:13px 22px;border-radius:12px;border:1px solid #ff5533;background:#ff5533;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#e8431f">Request Access →</button>
+      <a href="#platform" style="padding:13px 22px;border-radius:12px;border:1px solid #e0e2e6;background:rgba(255,255,255,0.7);backdrop-filter:blur(8px);color:#121218;font-size:15px;font-weight:500">Explore Platform</a>
+    </div>
+  </div>
+  <div style="position:relative;max-width:1200px;width:100%;margin:0 auto;padding:64px 24px 32px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-radius:16px;overflow:hidden;background:rgba(255,255,255,0.7);border:1px solid #e0e2e6;backdrop-filter:blur(12px)">
+      <div style="padding:22px 24px;border-right:1px solid #e0e2e6"><div style="font-size:13px;color:#61646b;margin-bottom:8px">YTD Return</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;color:#121218">+47.3%<span style="color:#ff5533;font-size:16px;margin-left:6px">▲</span></div></div>
+      <div style="padding:22px 24px;border-right:1px solid #e0e2e6"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Sharpe Ratio</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;color:#121218">3.21</div></div>
+      <div style="padding:22px 24px;border-right:1px solid #e0e2e6"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Max Drawdown</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;color:#121218">-6.8%</div></div>
+      <div style="padding:22px 24px"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Win Rate</div><div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;color:#121218">68.4%</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="platform" style="padding:120px 24px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:56px">
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:100px;background:#fff;border:1px solid #e0e2e6;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#ff5533"></span>Infrastructure</div>
+      <h2 style="font-size:clamp(32px,4.4vw,56px);font-weight:500;letter-spacing:-0.035em;line-height:1.05">Powered by <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">Quantum</span> Tech</h2>
+      <p style="font-size:17px;color:#61646b;line-height:1.55;max-width:600px;text-wrap:pretty">Our cutting-edge infrastructure combines AI, machine learning, and quantum-inspired algorithms for unparalleled trading performance.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px">
+      <div style="position:relative;min-width:0;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#1b1b21 0%,#121218 100%);border:1px solid rgba(255,255,255,0.06);box-shadow:rgba(255,255,255,0.08) 0px 2px 1px 0px inset,0 12px 24px -12px rgba(18,18,24,0.35);display:flex;flex-direction:column">
+        <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(50% 50% at 90% 6%,rgba(255,85,51,0.18),transparent 70%)"></div>
+        <div style="position:relative;height:280px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+          <div style="width:min(86%,420px);display:flex;flex-direction:column;gap:14px;transform:translateY(16px)">
+            <div style="display:flex;align-items:center;gap:10px;padding:6px 6px 6px 18px;border-radius:32px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);box-shadow:rgba(255,255,255,0.08) 0px 2px 1px 0px inset">
+              <span style="flex:1;font-size:14px;color:#94979e">Analyze anything...</span>
+              <span style="width:1px;height:16px;background:#5e5e5e"></span>
+              <span style="padding:8px 16px;border-radius:30px;background:linear-gradient(175deg,#ff7a5c,#ff5533);color:#fff;font-size:13px;font-weight:600">Analyze</span>
+            </div>
+            <sc-for list="{{ scans }}" as="r" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid {{ r.border }};box-shadow:rgba(255,255,255,0.06) 0px 2px 1px 0px inset;transform:{{ r.transform }};opacity:{{ r.opacity }};transition:all .6s cubic-bezier(.2,.8,.2,1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9cdd2" stroke-width="1.8"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+                <span style="flex:1;font-size:14px;color:#e0e2e6">{{ r.label }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff5533">{{ r.val }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"></path><path d="M15 7h6v6"></path></svg>
+              </div>
+            </sc-for>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:80px;background:linear-gradient(180deg,rgba(18,18,24,0) 0%,#131319 100%);pointer-events:none"></div>
+        </div>
+        <div style="padding:0 28px 28px;display:flex;flex-direction:column;gap:8px">
+          <h3 style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#fff">AI-Powered Analysis</h3>
+          <p style="font-size:15px;line-height:1.55;color:#94979e;max-width:440px">Neural networks analyze millions of data points in milliseconds to identify profitable patterns.</p>
+        </div>
+      </div>
+
+      <div style="position:relative;min-width:0;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#1b1b21 0%,#121218 100%);border:1px solid rgba(255,255,255,0.06);box-shadow:rgba(255,255,255,0.08) 0px 2px 1px 0px inset,0 12px 24px -12px rgba(18,18,24,0.35);display:flex;flex-direction:column">
+        <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(50% 50% at 90% 6%,rgba(255,85,51,0.18),transparent 70%)"></div>
+        <div style="position:relative;height:280px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+          <div style="position:relative;width:min(86%,400px);height:220px">
+            <sc-for list="{{ orders }}" as="o" hint-placeholder-count="4">
+              <div style="position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:#1f1f26;border:1px solid rgba(255,255,255,0.08);box-shadow:rgba(255,255,255,0.08) 0px 1px 1px 0px inset;transform:{{ o.transform }};filter:{{ o.filter }};opacity:{{ o.opacity }};z-index:{{ o.z }};transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .7s,opacity .7s">
+                <span style="width:28px;height:28px;border-radius:8px;background:rgba(255,85,51,0.14);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
+                <span style="flex:1;font-size:14px;color:#e0e2e6">{{ o.label }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#94979e">{{ o.ms }}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2.4"><path d="M20 6L9 17l-5-5"></path></svg>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:0 28px 28px;display:flex;flex-direction:column;gap:8px">
+          <h3 style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#fff">Lightning Execution</h3>
+          <p style="font-size:15px;line-height:1.55;color:#94979e;max-width:440px">Sub-millisecond trade execution with direct market access to major exchanges worldwide.</p>
+        </div>
+      </div>
+
+      <div style="position:relative;min-width:0;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#1b1b21 0%,#121218 100%);border:1px solid rgba(255,255,255,0.06);box-shadow:rgba(255,255,255,0.08) 0px 2px 1px 0px inset,0 12px 24px -12px rgba(18,18,24,0.35);display:flex;flex-direction:column">
+        <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(50% 50% at 90% 6%,rgba(255,85,51,0.18),transparent 70%)"></div>
+        <div style="position:relative;height:280px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+          <div style="position:relative;width:280px;height:240px">
+            <div style="position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:100px;border:1px dashed rgba(255,255,255,0.12)"></div>
+            <div style="position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:100px;background:#1f1f26;border:1px solid rgba(255,255,255,0.1);box-shadow:rgba(255,255,255,0.12) 0px 2px 1px 0px inset,0 0 40px rgba(255,85,51,0.35);display:flex;align-items:center;justify-content:center">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <sc-for list="{{ orbit }}" as="t" hint-placeholder-count="8">
+              <div style="position:absolute;left:{{ t.x }};top:{{ t.y }};width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:10px;background:#1f1f26;border:1px solid rgba(255,255,255,0.08);box-shadow:rgba(255,255,255,0.08) 0px 1px 1px 0px inset;display:flex;align-items:center;justify-content:center;transform:{{ t.transform }};filter:{{ t.filter }};transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s">{{ t.icon }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:0 28px 28px;display:flex;flex-direction:column;gap:8px">
+          <h3 style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#fff">Bank-Grade Security</h3>
+          <p style="font-size:15px;line-height:1.55;color:#94979e;max-width:440px">256-bit encryption, cold storage, and multi-signature protocols protect your assets.</p>
+        </div>
+      </div>
+
+      <div style="position:relative;min-width:0;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#1b1b21 0%,#121218 100%);border:1px solid rgba(255,255,255,0.06);box-shadow:rgba(255,255,255,0.08) 0px 2px 1px 0px inset,0 12px 24px -12px rgba(18,18,24,0.35);display:flex;flex-direction:column">
+        <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(50% 50% at 90% 6%,rgba(255,85,51,0.18),transparent 70%)"></div>
+        <div style="position:relative;height:280px;overflow:hidden;display:flex;align-items:center;justify-content:center;align-items:flex-end">
+          <div style="width:88%;height:250px;border-radius:10px 10px 0 0;background:#000;border:1px solid rgba(255,255,255,0.08);border-bottom:none;overflow:hidden;display:flex;flex-direction:column">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:linear-gradient(180deg,#1b1b21,#121218);box-shadow:rgba(255,255,255,0.08) 0px 2px 1px 0px inset">
+              <div style="display:flex;gap:6px;opacity:0.5"><span style="width:9px;height:9px;border-radius:5px;background:#ff5533"></span><span style="width:9px;height:9px;border-radius:5px;background:#61646b"></span><span style="width:9px;height:9px;border-radius:5px;background:#61646b"></span></div>
+              <div style="padding:4px 12px;border-radius:6px;background:rgba(255,255,255,0.06);font-size:12px;color:#fff;display:flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg>Code</div>
+            </div>
+            <div style="flex:1;display:flex;min-height:0">
+              <div style="display:flex;flex-direction:column;gap:8px;padding:12px 8px;background:#0b0b10;border-right:1px solid rgba(255,255,255,0.06)">
+                <sc-for list="{{ files }}" as="fn" hint-placeholder-count="5">
+                  <span style="width:22px;height:22px;border-radius:11px;background:{{ fn.bg }};color:{{ fn.color }};font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;align-items:center;justify-content:center;transition:all .4s">{{ fn.n }}</span>
+                </sc-for>
+              </div>
+              <div style="position:relative;flex:1;min-width:0;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.75;overflow:hidden;-webkit-mask:linear-gradient(0deg,rgba(0,0,0,0) 10%,#000 55%);mask:linear-gradient(0deg,rgba(0,0,0,0) 10%,#000 55%)">
+                <sc-for list="{{ code }}" as="l" hint-placeholder-count="12">
+                  <div style="white-space:pre;border-radius:4px;padding:0 6px;margin:0 -6px;background:{{ l.bg }};transition:background .4s"><span style="color:#ff5533">{{ l.kw }}</span><span style="color:{{ l.color }}">{{ l.rest }}</span></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 28px 28px;display:flex;flex-direction:column;gap:8px">
+          <h3 style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#fff">Advanced Analytics</h3>
+          <p style="font-size:15px;line-height:1.55;color:#94979e;max-width:440px">Real-time dashboards with 50+ technical indicators and customizable alerts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="algo" style="padding:0 24px 120px">
+  <div style="max-width:1200px;margin:0 auto;border-radius:24px;padding:clamp(28px,5vw,64px);background:linear-gradient(180deg,#24242a 0%,#121218 100%);color:#fff">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;margin-bottom:56px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:8px;padding:6px 12px;border-radius:100px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#ff5533"></span>ALGO/OS</div>
+        <h2 style="font-size:clamp(30px,4vw,52px);font-weight:500;letter-spacing:-0.035em;line-height:1.08;max-width:620px">From thesis to trade. <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">One system.</span></h2>
+      </div>
+      <p style="font-size:16px;color:#c9cdd2;line-height:1.6;max-width:400px">Stop stitching together brittle tools. ALGO/OS gives every model, market, and mandate a shared language — with intelligence embedded at every layer.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+      <div style="border-radius:16px;padding:28px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#ff5533">01 — Research.</div>
+        <div style="font-size:22px;font-weight:600;letter-spacing:-0.02em">Hypothesis → Signal</div>
+        <p style="font-size:15px;color:#c9cdd2;line-height:1.6">Turn market hypotheses into validated signals with an AI research layer that reads structure, regime, and context.</p>
+      </div>
+      <div style="border-radius:16px;padding:28px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#ff5533">02 — Orchestrate.</div>
+        <div style="font-size:22px;font-weight:600;letter-spacing:-0.02em">Compose. No black boxes.</div>
+        <p style="font-size:15px;color:#c9cdd2;line-height:1.6">Compose models, execution rules, and risk limits into transparent strategy graphs. Every decision is auditable.</p>
+      </div>
+      <div style="border-radius:16px;padding:28px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#ff5533">03 — Deploy.</div>
+        <div style="font-size:22px;font-weight:600;letter-spacing:-0.02em">Route. Control. Verify.</div>
+        <p style="font-size:15px;color:#c9cdd2;line-height:1.6">Route globally through low-latency infrastructure with continuous health checks and deterministic controls.</p>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:28px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <span style="width:8px;height:8px;border-radius:50%;background:#ff5533;margin-top:7px;flex-shrink:0"></span>
+        <div><h4 style="font-size:15px;font-weight:600;margin-bottom:4px">Complete decision lineage</h4><p style="font-size:14px;color:#c9cdd2;line-height:1.55">Every decision arrives with evidence: contributing signals, regime context, confidence, and policy checks.</p></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <span style="width:8px;height:8px;border-radius:50%;background:#ff5533;margin-top:7px;flex-shrink:0"></span>
+        <div><h4 style="font-size:15px;font-weight:600;margin-bottom:4px">Pre-trade policy enforcement</h4><p style="font-size:14px;color:#c9cdd2;line-height:1.55">Your team stays in control with hard limits enforced before any order reaches the wire.</p></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <span style="width:8px;height:8px;border-radius:50%;background:#ff5533;margin-top:7px;flex-shrink:0"></span>
+        <div><h4 style="font-size:15px;font-weight:600;margin-bottom:4px">Real-time exposure attribution</h4><p style="font-size:14px;color:#c9cdd2;line-height:1.55">Live factor decomposition across every position, strategy, and book — down to the signal level.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities" style="padding:0 24px 120px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:56px">
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:100px;background:#fff;border:1px solid #e0e2e6;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#ff5533"></span>Capabilities</div>
+      <h2 style="font-size:clamp(32px,4.4vw,56px);font-weight:500;letter-spacing:-0.035em;line-height:1.05">Powered by <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">Advanced</span> AI</h2>
+      <p style="font-size:17px;color:#61646b;line-height:1.55;max-width:600px;text-wrap:pretty">Our proprietary algorithms analyze millions of data points per second, identifying profitable opportunities before the market reacts.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;max-width:960px;margin:0 auto">
+      <sc-for list="{{ caps }}" as="c" hint-placeholder-count="8">
+        <div onMouseEnter="{{ c.enter }}" onMouseLeave="{{ leave }}" style="position:relative;height:200px;background:#fff;border:1px solid #e0e2e6;border-radius:16px;box-shadow:rgba(36,36,36,0.7) 0px 1px 5px -4px,rgba(36,36,36,0.05) 0px 4px 8px 0px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:16px;overflow:hidden;cursor:default">
+          <div style="position:relative;padding:16px;border-radius:12px;background:#fff1ed;box-shadow:rgba(19,19,22,0.7) 0px 1px 5px -4px,rgba(255,85,51,0.18) 0px 0px 0px 1px,rgba(34,42,53,0.05) 0px 4px 8px 0px">
+            <div style="width:32px;height:28px;display:flex;align-items:center;justify-content:center">{{ c.icon }}</div>
+            <span style="position:absolute;top:6px;left:6px;width:4px;height:4px;border-radius:29px;background:#ffc9bb;box-shadow:rgba(0,0,0,0.16) 0px 1px 1.9px 0px inset"></span>
+            <span style="position:absolute;top:6px;right:6px;width:4px;height:4px;border-radius:29px;background:#ffc9bb;box-shadow:rgba(0,0,0,0.16) 0px 1px 1.9px 0px inset"></span>
+            <span style="position:absolute;bottom:6px;left:6px;width:4px;height:4px;border-radius:29px;background:#ffc9bb;box-shadow:rgba(0,0,0,0.16) 0px 1px 1.9px 0px inset"></span>
+            <span style="position:absolute;bottom:6px;right:6px;width:4px;height:4px;border-radius:29px;background:#ffc9bb;box-shadow:rgba(0,0,0,0.16) 0px 1px 1.9px 0px inset"></span>
+          </div>
+          <h3 style="font-size:16px;font-weight:600;line-height:1.3;text-align:center;letter-spacing:-0.01em">{{ c.t }}</h3>
+          <div style="position:absolute;inset:0;z-index:2;border-radius:16px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center;transition:opacity .35s cubic-bezier(.2,.8,.2,1),transform .35s cubic-bezier(.2,.8,.2,1);opacity:{{ c.ovOpacity }};transform:{{ c.ovTransform }};pointer-events:none">
+            <div style="font-size:16px;font-weight:600;color:#121218;letter-spacing:-0.01em">{{ c.t }}</div>
+            <p style="font-size:14px;line-height:1.5;color:#61646b;text-wrap:pretty">{{ c.d }}</p>
+            <span style="width:6px;height:6px;border-radius:100px;background:#ff5533;margin-top:4px"></span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="performance" style="padding:0 24px 120px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:56px">
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:100px;background:#fff;border:1px solid #e0e2e6;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#ff5533"></span>Performance</div>
+      <h2 style="font-size:clamp(32px,4.4vw,56px);font-weight:500;letter-spacing:-0.035em;line-height:1.05">Outperformance, <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">verified.</span></h2>
+      <p style="font-size:17px;color:#61646b;line-height:1.55;max-width:600px;text-wrap:pretty">Cumulative net returns vs. the NIFTY 50 benchmark. Audited quarterly by independent third-party administrators.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px">
+      <div style="grid-column:span 2;min-width:0;background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:28px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px">
+          <div>
+            <div style="font-size:19px;font-weight:600;margin-bottom:6px">Cumulative Return — 36 Months</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">INCEPTION: OCT 2023 · LIVE · NET OF FEES</div>
+          </div>
+          <div style="display:flex;gap:18px;font-size:13px;color:#61646b">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:3px;border-radius:2px;background:#ff5533"></span>TradicAI Fund</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:3px;border-radius:2px;background:#94979e"></span>NIFTY 50</div>
+          </div>
+        </div>
+        <svg viewBox="0 0 800 320" preserveAspectRatio="none" style="width:100%;height:300px;display:block">
+          <defs>
+            <linearGradient id="axFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ff5533" stop-opacity="0.22"></stop><stop offset="100%" stop-color="#ff5533" stop-opacity="0"></stop></linearGradient>
+          </defs>
+          <g stroke="#edeef1" stroke-width="1"><line x1="0" y1="60" x2="800" y2="60"></line><line x1="0" y1="130" x2="800" y2="130"></line><line x1="0" y1="200" x2="800" y2="200"></line><line x1="0" y1="270" x2="800" y2="270"></line></g>
+          <g fill="#94979e" font-family="JetBrains Mono" font-size="10"><text x="4" y="56">+150%</text><text x="4" y="126">+100%</text><text x="4" y="196">+50%</text><text x="4" y="266">0%</text></g>
+          <path d="M 40 265 L 90 255 L 140 248 L 190 252 L 240 238 L 290 230 L 340 225 L 390 218 L 440 222 L 490 208 L 540 198 L 590 192 L 640 185 L 690 178 L 740 172 L 780 168" fill="none" stroke="#94979e" stroke-width="2" stroke-dasharray="4 3"></path>
+          <path d="M 40 265 L 90 248 L 140 232 L 190 220 L 240 198 L 290 180 L 340 162 L 390 148 L 440 132 L 490 118 L 540 102 L 590 88 L 640 76 L 690 62 L 740 52 L 780 42 L 780 320 L 40 320 Z" fill="url(#axFill)"></path>
+          <path d="M 40 265 L 90 248 L 140 232 L 190 220 L 240 198 L 290 180 L 340 162 L 390 148 L 440 132 L 490 118 L 540 102 L 590 88 L 640 76 L 690 62 L 740 52 L 780 42" fill="none" stroke="#ff5533" stroke-width="2.5"></path>
+          <circle cx="780" cy="42" r="8" fill="#ff5533" opacity="0.2"></circle><circle cx="780" cy="42" r="4" fill="#ff5533"></circle><circle cx="780" cy="168" r="3" fill="#94979e"></circle>
+        </svg>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #edeef1;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px">
+          <div><div style="font-size:12px;color:#61646b;margin-bottom:4px">TRADICAI YTD</div><div style="font-size:22px;font-weight:600;color:#ff5533">+47.3%</div></div>
+          <div><div style="font-size:12px;color:#61646b;margin-bottom:4px">NIFTY 50 YTD</div><div style="font-size:22px;font-weight:600">+18.6%</div></div>
+          <div><div style="font-size:12px;color:#61646b;margin-bottom:4px">ALPHA</div><div style="font-size:22px;font-weight:600;color:#ff5533">+28.7%</div></div>
+          <div><div style="font-size:12px;color:#61646b;margin-bottom:4px">BETA</div><div style="font-size:22px;font-weight:600">0.42</div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <div style="flex:1;border-radius:16px;padding:24px;background:linear-gradient(180deg,#24242a 0%,#121218 100%);color:#fff;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:14px;color:#c9cdd2">3Y CAGR</div>
+          <div style="font-size:44px;font-weight:600;letter-spacing:-0.04em;color:#ff5533">+41.8%</div>
+          <div style="font-size:14px;color:#c9cdd2">vs. NIFTY 50 <b style="color:#fff;font-weight:600">+16.2%</b></div>
+        </div>
+        <div style="flex:1;border-radius:16px;padding:24px;background:#fff;border:1px solid #e0e2e6;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:14px;color:#61646b">Information Ratio</div>
+          <div style="font-size:44px;font-weight:600;letter-spacing:-0.04em;color:#ff5533">1.84</div>
+          <div style="font-size:14px;color:#61646b">Consistent outperformance across regimes</div>
+        </div>
+        <div style="flex:1;border-radius:16px;padding:24px;background:#fff;border:1px solid #e0e2e6;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:14px;color:#61646b">Sortino Ratio</div>
+          <div style="font-size:44px;font-weight:600;letter-spacing:-0.04em;color:#ff5533">4.12</div>
+          <div style="font-size:14px;color:#61646b">Asymmetric return profile — limited downside</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verified" style="padding:0 24px 120px">
+  <div style="max-width:1200px;margin:0 auto;background:#fff;border:1px solid #e0e2e6;border-radius:24px;overflow:hidden">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-bottom:1px solid #e0e2e6">
+      <div style="padding:24px clamp(24px,4vw,48px) 24px 24px;border-right:1px solid #edeef1"><div style="font-size:13px;color:#61646b;margin-bottom:8px">YTD Return</div><div style="font-size:28px;font-weight:600;letter-spacing:-0.03em;color:#ff5533">+47.32%</div><div style="font-size:12px;color:#61646b;margin-top:4px;font-family:'JetBrains Mono',monospace">vs NIFTY +18.61%</div></div>
+      <div style="padding:24px;border-right:1px solid #edeef1"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Annualized</div><div style="font-size:28px;font-weight:600;letter-spacing:-0.03em;color:#ff5533">+41.8%</div><div style="font-size:12px;color:#61646b;margin-top:4px;font-family:'JetBrains Mono',monospace">3Y CAGR</div></div>
+      <div style="padding:24px;border-right:1px solid #edeef1"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Sharpe Ratio</div><div style="font-size:28px;font-weight:600;letter-spacing:-0.03em">3.21</div><div style="font-size:12px;color:#61646b;margin-top:4px;font-family:'JetBrains Mono',monospace">Rf = 6.8%</div></div>
+      <div style="padding:24px;border-right:1px solid #edeef1"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Max Drawdown</div><div style="font-size:28px;font-weight:600;letter-spacing:-0.03em">-6.84%</div><div style="font-size:12px;color:#61646b;margin-top:4px;font-family:'JetBrains Mono',monospace">Recovered in 11 days</div></div>
+      <div style="padding:24px"><div style="font-size:13px;color:#61646b;margin-bottom:8px">Win Rate</div><div style="font-size:28px;font-weight:600;letter-spacing:-0.03em">68.4%</div><div style="font-size:12px;color:#61646b;margin-top:4px;font-family:'JetBrains Mono',monospace">14,208 trades</div></div>
+    </div>
+    <div style="padding:32px clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ years }}" as="y" hint-placeholder-count="6">
+            <button onClick="{{ y.pick }}" style="padding:7px 16px;border-radius:100px;border:1px solid {{ y.border }};background:{{ y.bg }};color:{{ y.color }};font-size:14px;font-weight:600;cursor:pointer;transition:all .2s">{{ y.y }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onClick="{{ scrollPrev }}" aria-label="Previous" style="width:34px;height:34px;border-radius:100px;border:1px solid #e0e2e6;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2.4"><path d="M15 18l-6-6 6-6"></path></svg></button>
+          <button onClick="{{ scrollNext }}" aria-label="Next" style="width:34px;height:34px;border-radius:100px;border:1px solid #e0e2e6;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2.4"><path d="M9 18l6-6-6-6"></path></svg></button>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;border:1px solid #edeef1;border-radius:16px;padding:16px 0 12px 14px;background:#fff">
+        <div style="display:grid;grid-template-rows:repeat(7,18px);gap:5px;font-size:11px;font-weight:600;color:#94979e;text-align:center;width:14px;flex-shrink:0">
+          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        </div>
+        <div ref="{{ calRef }}" style="flex:1;min-width:0;overflow-x:auto;scroll-behavior:smooth;padding-bottom:10px;padding-right:14px">
+          <div style="display:flex;gap:18px;width:max-content">
+            <sc-for list="{{ calMonths }}" as="mo" hint-placeholder-count="12">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;gap:5px">
+                  <sc-for list="{{ mo.weeks }}" as="wk" hint-placeholder-count="5">
+                    <div style="display:grid;grid-template-rows:repeat(7,18px);gap:5px">
+                      <sc-for list="{{ wk.days }}" as="d" hint-placeholder-count="7">
+                        <span onMouseEnter="{{ d.enter }}" onClick="{{ d.pin }}" title="{{ d.title }}" style="width:18px;height:18px;border-radius:100px;background:{{ d.bg }};box-shadow:{{ d.ring }};cursor:{{ d.cursor }};transition:background .25s,transform .2s" style-hover="transform:scale(1.2)"></span>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="font-size:13px;font-weight:600;color:#44454c;padding-left:2px">{{ mo.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ moods }}" as="c" hint-placeholder-count="4">
+          <button onClick="{{ c.toggle }}" style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:10px;border:1px solid {{ c.border }};background:{{ c.bg }};font-size:13px;font-weight:500;color:#121218;cursor:pointer;opacity:{{ c.opacity }};transition:all .2s">
+            <span style="width:10px;height:10px;border-radius:10px;background:{{ c.color }}"></span>{{ c.name }}<b style="font-weight:700">{{ c.count }}</b>
+          </button>
+        </sc-for>
+        <button onClick="{{ clearMood }}" style="padding:6px 10px;border:none;background:none;font-size:13px;color:#94979e;cursor:pointer">Clear</button>
+        <span style="width:1px;height:20px;background:#e0e2e6"></span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:#61646b"><span style="width:12px;height:12px;border-radius:12px;background:#ff5533;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #ff5533"></span>Today</span>
+      </div>
+      <div style="min-height:52px;display:flex;justify-content:center">
+        <sc-if value="{{ hasDay }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;padding:12px 18px;border-radius:12px;background:#f7f7f8;border:1px solid {{ dayBorder }};font-size:14px">
+            <span style="display:flex;align-items:center;gap:8px;font-weight:600"><span style="width:10px;height:10px;border-radius:10px;background:{{ dayColor }}"></span>{{ dayDate }}</span>
+            <span style="color:#61646b">{{ dayMood }} · expected move <b style="color:#121218">{{ dayMove }}</b></span>
+            <span style="color:#61646b">Fund P&amp;L <b style="color:{{ dayPnlColor }}">{{ dayPnl }}</b></span>
+            <span style="color:#61646b">{{ dayStory }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noDay }}" hint-placeholder-val="{{ true }}">
+          <p style="font-size:13px;color:#94979e;text-align:center;align-self:center">Colour = expected move (implied vol) · hover for move &amp; context · click for the full day story.</p>
+        </sc-if>
+      </div>
+    </div>
+    <div style="padding:28px clamp(24px,4vw,48px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;border-top:1px solid #e0e2e6;background:#f7f7f8">
+      <div style="max-width:560px">
+        <h4 style="font-size:18px;font-weight:600;margin-bottom:6px">Full tear-sheet behind request-only access</h4>
+        <p style="font-size:15px;color:#61646b;line-height:1.55">Detailed monthly attribution, factor exposure, drawdown analysis, and strategy-level P&amp;L are available to qualified investors under NDA.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="Backtest%20Report.dc.html" style="padding:13px 22px;border-radius:12px;border:1px solid #c9cdd2;background:#fff;font-size:15px;font-weight:500">View Backtest Report</a>
+        <button onClick="{{ openModal }}" style="padding:13px 22px;border-radius:12px;border:1px solid #ff5533;background:#ff5533;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#e8431f">Request Full Access →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:0 16px 16px">
+  <div style="max-width:1400px;margin:0 auto;border-radius:24px;background:linear-gradient(180deg,#24242a 0%,#121218 100%);color:#fff;padding:clamp(56px,8vw,104px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
+    <h2 style="font-size:clamp(34px,5vw,64px);font-weight:500;letter-spacing:-0.04em;line-height:1.05;max-width:820px">Allocation is by <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">invitation only.</span></h2>
+    <p style="font-size:17px;line-height:1.55;max-width:560px;color:rgba(255,255,255,0.86)">We onboard a limited number of qualified investors each quarter. Submit your details and our IR team will respond within 48 hours.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <button onClick="{{ openModal }}" style="padding:13px 22px;border-radius:12px;border:1px solid #ff5533;background:#ff5533;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#e8431f">Request Access →</button>
+      <a href="#performance" style="padding:13px 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.4);color:#fff;font-size:15px;font-weight:500">View Performance</a>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:64px 24px 32px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:40px;margin-bottom:48px">
+      <div style="grid-column:span 2;min-width:0;max-width:360px">
+        <a href="#" style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px">
+          <span style="width:28px;height:28px;border-radius:8px;background:#ff5533;display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border:2px solid #fff;border-radius:2px;transform:rotate(45deg)"></span></span>
+          <span>TRADIC<span style="color:#ff5533">AI</span></span>
+        </a>
+        <p style="font-size:15px;color:#61646b;line-height:1.6;margin-top:16px">Systematic trading infrastructure for the next generation of capital allocators. Registered investment advisor. Member SIPC.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <div style="font-size:13px;color:#94979e;margin-bottom:4px">Platform</div>
+        <a href="#platform">Infrastructure</a><a href="#algo">ALGO/OS</a><a href="#capabilities">Capabilities</a><a href="#performance">Performance</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <div style="font-size:13px;color:#94979e;margin-bottom:4px">Firm</div>
+        <a href="#">About</a><a href="#">Research</a><a href="#">Careers</a><a href="#">Press</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <div style="font-size:13px;color:#94979e;margin-bottom:4px">Legal</div>
+        <a href="Legal.dc.html#disclosures">Disclosures</a><a href="Legal.dc.html#risk">Risk Disclosure</a><a href="Legal.dc.html#privacy">Privacy</a><a href="Legal.dc.html#terms">Terms</a><a href="Legal.dc.html#cookies">Cookies</a><a href="Legal.dc.html#regulatory">Regulatory</a>
+      </div>
+    </div>
+    <div style="padding-top:24px;border-top:1px solid #e0e2e6;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:12px;color:#61646b;font-family:'JetBrains Mono',monospace">
+      <div>© 2026 TRADICAI CAPITAL LLP · ALL RIGHTS RESERVED</div>
+      <div>PAST PERFORMANCE IS NOT INDICATIVE OF FUTURE RESULTS.</div>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ backdropClick }}" style="position:fixed;inset:0;z-index:100;background:rgba(18,18,24,0.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px">
+    <div style="position:relative;width:100%;max-width:480px;max-height:calc(100vh - 40px);overflow:auto;background:#fff;border-radius:20px;padding:36px;box-shadow:0 24px 60px -12px rgba(18,18,24,0.35)">
+      <button onClick="{{ closeModal }}" style="position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:10px;border:1px solid #e0e2e6;background:#fff;font-size:20px;line-height:1;cursor:pointer;color:#61646b">×</button>
+      <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+        <h3 style="font-size:26px;font-weight:600;letter-spacing:-0.03em;margin-bottom:8px">Request Access</h3>
+        <p style="font-size:14px;color:#61646b;line-height:1.6;margin-bottom:24px">Access to our fund, full tear-sheet, and platform demo is available to qualified investors only. We'll respond within 48 hours.</p>
+        <form onSubmit="{{ submit }}" style="display:flex;flex-direction:column;gap:14px">
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500">Full Name<input type="text" required="" placeholder="Jane Doe" style="padding:12px 14px;border-radius:10px;border:1px solid #e0e2e6;background:#f7f7f8;font-size:14px;color:#121218;outline:none" style-focus="border-color:#ff5533"></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500">Institutional Email<input type="email" required="" placeholder="jane@firm.com" style="padding:12px 14px;border-radius:10px;border:1px solid #e0e2e6;background:#f7f7f8;font-size:14px;color:#121218;outline:none" style-focus="border-color:#ff5533"></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500">Organization<input type="text" required="" placeholder="Family Office / Fund / HNW" style="padding:12px 14px;border-radius:10px;border:1px solid #e0e2e6;background:#f7f7f8;font-size:14px;color:#121218;outline:none" style-focus="border-color:#ff5533"></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500">Indicative Allocation (USD)
+            <select required="" style="padding:12px 14px;border-radius:10px;border:1px solid #e0e2e6;background:#f7f7f8;font-size:14px;color:#121218;outline:none" style-focus="border-color:#ff5533">
+              <option value="">Select range</option><option>$250K – $1M</option><option>$1M – $5M</option><option>$5M – $25M</option><option>$25M+</option>
+            </select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500">Message (optional)<textarea placeholder="Tell us about your allocation goals..." style="padding:12px 14px;border-radius:10px;border:1px solid #e0e2e6;background:#f7f7f8;font-size:14px;color:#121218;min-height:80px;resize:vertical;outline:none" style-focus="border-color:#ff5533"></textarea></label>
+          <button type="submit" style="margin-top:6px;padding:14px;border-radius:12px;border:1px solid #ff5533;background:#ff5533;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#e8431f">Submit Request →</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:20px 0;display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="width:60px;height:60px;border-radius:50%;background:#fff1ed;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff5533" stroke-width="2.5"><path d="M20 6L9 17l-5-5"></path></svg></div>
+          <h3 style="font-size:24px;font-weight:600;letter-spacing:-0.02em">Request received.</h3>
+          <p style="font-size:14px;color:#61646b;line-height:1.6">Our investor relations team will reach out within 48 hours. Check your inbox for a confirmation.</p>
+          <button onClick="{{ closeModal }}" style="margin-top:8px;padding:11px 20px;border-radius:12px;border:1px solid #c9cdd2;background:#fff;font-size:14px;font-weight:500;cursor:pointer">Close</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: false, sent: false };
+  videoRef = el => { if (el) { el.muted = true; el.loop = true; el.play && el.play().catch(() => {}); } };
+  icon(i) {
+    const h = React.createElement;
+    const P = d => h('path', { d, key: d });
+    const C = (r, k) => h('circle', { cx: 12, cy: 12, r, key: 'c' + k });
+    const kids = [
+      [C(3,1), P('M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8')],
+      [C(2,1), C(6,2), C(10,3)],
+      [P('M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z')],
+      [P('M3 3v18h18'), P('M7 12l3 3 7-7')],
+      [P('M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z')],
+      [P('M13 2L3 14h9l-1 8 10-12h-9l1-8z')],
+      [C(10,1), P('M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20')],
+      [P('M3 3v18h18'), P('M7 15l4-5 4 3 5-7')]
+    ][i];
+    return h('svg', { width: 26, height: 26, viewBox: '0 0 24 24', fill: 'none', stroke: '#ff5533', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' }, kids);
+  }
+  calEl = null;
+  scrollToToday(el) {
+    const y = this.state.calYear ?? new Date().getFullYear();
+    el.style.scrollBehavior = 'auto';
+    if (y === new Date().getFullYear()) { const frac = (new Date().getMonth() + 0.5) / 12; el.scrollLeft = Math.max(0, el.scrollWidth * frac - el.clientWidth / 2); }
+    else el.scrollLeft = 0;
+    el.style.scrollBehavior = 'smooth';
+  }
+  calRef = el => { if (el && el !== this.calEl) { this.calEl = el; requestAnimationFrame(() => this.scrollToToday(el)); } };
+  componentDidUpdate(_, prev) { if (prev.calYear !== this.state.calYear && this.calEl) this.scrollToToday(this.calEl); }
+  calVals() {
+    const MOODS = [
+      { name:'Calm', color:'#ff5533', lo:0.4, hi:0.8, story:'Range-bound session; systematic carry and mean-reversion books did the work.' },
+      { name:'Fearful', color:'#9b1c0c', lo:1.8, hi:3.0, story:'Vol spike on macro headlines; pre-trade limits cut gross exposure by a third.' },
+      { name:'Nervous', color:'#ffb199', lo:1.2, hi:1.8, story:'Elevated implied vol into an event; hedges rolled tighter, sizing trimmed.' },
+      { name:'Normal', color:'#44454c', lo:0.8, hi:1.2, story:'Typical liquidity and trend; momentum and execution alpha in line with model.' }
+    ];
+    const year = this.state.calYear ?? new Date().getFullYear(), filt = this.state.mood ?? null;
+    const now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const fade = (hex, a) => `rgba(${parseInt(hex.slice(1,3),16)},${parseInt(hex.slice(3,5),16)},${parseInt(hex.slice(5,7),16)},${a})`;
+    const rnd = (y,m,d,k) => { let x = Math.sin(y*374.1 + m*91.7 + d*13.3 + k*7.1) * 43758.5453; return x - Math.floor(x); };
+    const pickMood = r => r < 0.42 ? 0 : r < 0.67 ? 3 : r < 0.87 ? 2 : 1;
+    const MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const counts = [0,0,0,0];
+    const sel = this.state.pinDay || this.state.hoverDay || null;
+    const calMonths = [];
+    for (let m = 0; m < 12; m++) {
+      const first = new Date(year, m, 1), dim = new Date(year, m+1, 0).getDate();
+      const weeks = []; let wk = Array(7).fill(null);
+      for (let d = 1; d <= dim; d++) {
+        const dt = new Date(year, m, d), dow = dt.getDay();
+        if (d > 1 && dow === 0) { weeks.push(wk); wk = Array(7).fill(null); }
+        const key = `${year}-${m}-${d}`, future = dt > today, isToday = +dt === +today, wkend = dow === 0 || dow === 6;
+        let cell;
+        if (future) cell = { bg:'#f4f4f6', ring:'none', cursor:'default', title:'' };
+        else if (wkend) cell = { bg:'#edeef1', ring:'none', cursor:'default', title:'Market closed' };
+        else {
+          const mi = pickMood(rnd(year,m,d,1)), M = MOODS[mi]; if (!future) counts[mi]++;
+          const move = (M.lo + (M.hi - M.lo) * rnd(year,m,d,2)).toFixed(2);
+          const pnlV = (rnd(year,m,d,3) - 0.32) * (mi === 1 ? 1.6 : 0.9);
+          const dateStr = dt.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+          const info = { key, date: dateStr + (isToday ? ' · Today' : future ? ' · Forecast' : ''), mood: M.name, color: M.color, move: '±' + move + '%',
+            pnl: future || isToday ? 'pending' : (pnlV >= 0 ? '+' : '') + pnlV.toFixed(2) + '%', pnlPos: !future && !isToday && pnlV >= 0,
+            story: future ? 'Forecast from the implied-vol term structure; regime and sizing are pre-set and update as the date approaches.' : isToday ? 'Live session. Regime from today\'s open; P&L settles after the close.' : M.story };
+          const dim2 = filt !== null && filt !== mi, on = sel && sel.key === key;
+          const base = dim2 ? '#edeef1' : future ? fade(M.color, 0.28) : M.color;
+          cell = { bg: base, ring: on ? '0 0 0 2px #fff, 0 0 0 4px #121218' : isToday ? '0 0 0 2px #fff, 0 0 0 4px #ff5533' : future && !dim2 ? `inset 0 0 0 1.5px ${M.color}` : 'none', cursor:'pointer',
+            title: `${info.date} · ${M.name} · ${info.move}`,
+            enter: () => this.setState({ hoverDay: info }),
+            pin: () => this.setState(s => ({ pinDay: s.pinDay && s.pinDay.key === key ? null : info })) };
+        }
+        wk[dow] = cell;
+        if (d === 1) for (let i = 0; i < dow; i++) wk[i] = { bg:'transparent', ring:'none', cursor:'default', title:'' };
+      }
+      weeks.push(wk.map(c => c || { bg:'transparent', ring:'none', cursor:'default', title:'' }));
+      calMonths.push({ label: `${MN[m]} '${String(year).slice(2)}`, weeks: weeks.map(days => ({ days })) });
+    }
+    const moods = MOODS.map((M,i) => ({ name:M.name, color:M.color, count:counts[i],
+      border: filt === i ? '#121218' : '#e0e2e6', bg: filt === i ? '#f7f7f8' : '#fff', opacity: filt === null || filt === i ? 1 : 0.5,
+      toggle: () => this.setState(s => ({ mood: s.mood === i ? null : i })) }));
+    const cy = today.getFullYear();
+    const years = [cy-5,cy-4,cy-3,cy-2,cy-1,cy].map(y => ({ y, border: y === year ? '#ff5533' : '#e0e2e6', bg: y === year ? '#ff5533' : '#fff', color: y === year ? '#fff' : '#121218',
+      pick: () => this.setState({ calYear: y, pinDay: null, hoverDay: null }) }));
+    const sc = dir => () => { if (this.calEl) this.calEl.scrollBy({ left: dir * 320, behavior: 'smooth' }); };
+    return { calRef: this.calRef, calMonths, moods, years, scrollPrev: sc(-1), scrollNext: sc(1),
+      clearMood: () => this.setState({ mood: null, pinDay: null }),
+      hasDay: !!sel, noDay: !sel, dayDate: sel?.date, dayMood: sel?.mood, dayColor: sel?.color, dayMove: sel?.move,
+      dayPnl: sel?.pnl, dayPnlColor: sel?.pnlPos ? '#ff5533' : '#44454c', dayStory: sel?.story, dayBorder: this.state.pinDay ? '#121218' : '#e0e2e6' };
+  }
+  componentDidMount() {
+    this._day = new Date().toDateString();
+    this._dayT = setInterval(() => {
+      const d = new Date().toDateString();
+      if (d !== this._day) { const wasCurrent = (this.state.calYear ?? null) === null || this.state.calYear === new Date(this._day).getFullYear(); this._day = d;
+        this.setState(wasCurrent ? { calYear: new Date().getFullYear() } : {}, () => { if (wasCurrent && this.calEl) this.scrollToToday(this.calEl); }); }
+    }, 60000);
+    this.startTick();
+  }
+  startTick() { this._t = setInterval(() => this.setState(s => ({ tick: (s.tick || 0) + 1 })), 2200); }
+  componentWillUnmount() { clearInterval(this._t); clearInterval(this._dayT); }
+  platformVals() {
+    const t = this.state.tick || 0, h = React.createElement;
+    const scansRaw = [['NIFTY 50 · Momentum regime','+2.4σ'],['BANKNIFTY · Mean reversion','+1.8σ'],['USD/INR · Volatility breakout','+3.1σ']];
+    const scans = scansRaw.map(([label,val],i)=>{ const on = t % 3 === i; return { label, val,
+      border: on ? 'rgba(255,85,51,0.55)' : 'rgba(255,255,255,0.08)', transform: on ? 'translateX(-8px)' : 'translateX(0)', opacity: on ? 1 : 0.6 }; });
+    const ordersRaw = [['BUY NIFTY FUT','0.38ms'],['SELL BANKNIFTY CE','0.41ms'],['BUY RELIANCE EQ','0.36ms'],['HEDGE USD/INR','0.44ms']];
+    const orders = ordersRaw.map(([label,ms],i)=>{ const p = (i - t % 4 + 4) % 4; return { label, ms,
+      transform: `translateY(${150 - p*46}px) scale(${1 - p*0.06})`, filter: `blur(${p}px)`, opacity: p === 3 ? 0.35 : 1 - p*0.18, z: 10 - p }; });
+    const paths = ['M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z','M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4','M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .3-2M12 12v4a8 8 0 0 1-1.5 5M18 12a14 14 0 0 1-.7 4.5M9 12a3 3 0 0 1 6 0v1'];
+    const orbit = Array.from({length:8},(_,i)=>{ const a = i/8*Math.PI*2 - Math.PI/2; const big = (i + t) % 2 === 0;
+      return { x: (140 + Math.cos(a)*100)+'px', y: (120 + Math.sin(a)*100)+'px', transform: big ? 'scale(1.15)' : 'scale(0.8)', filter: big ? 'blur(0px)' : 'blur(1px)',
+        icon: h('svg',{width:16,height:16,viewBox:'0 0 24 24',fill:'none',stroke: big ? '#ff5533' : '#94979e',strokeWidth:1.8,strokeLinecap:'round',strokeLinejoin:'round'}, h('path',{d:paths[i%3]})) }; });
+    const src = ['class AutomationAgent:','    def __init__(self, activation_limit):','        self.activation_limit = activation_limit','        self.current_mode = "idle"','','    def evaluate_task(self, workload_value):','        if workload_value > self.activation_limit:','            self.current_mode = "engaged"','            return "Automation agent has been successfully activated!"','        else:','            return "No activation needed. Agent stays idle."','    def get_current_mode(self):','        return f"Current operational mode: {self.current_mode}"'];
+    const hl = t % 6;
+    const code = src.map((ln,i)=>{ const m = ln.match(/^(\s*)(class|def|if|else|return)?(.*)$/); return { kw: m[1] + (m[2]||''), rest: (m[3]||'') || ' ',
+      color: i === 0 || /def /.test(ln) ? '#ffffff' : '#bfbfbf', bg: i === hl*2 ? 'rgba(255,85,51,0.12)' : 'transparent' }; });
+    const files = [1,2,3,4,5].map(n=>({ n, bg: (t % 5) + 1 === n ? '#ff5533' : 'rgba(255,255,255,0.06)', color: (t % 5) + 1 === n ? '#fff' : '#94979e' }));
+    return { scans, orders, orbit, code, files };
+  }
+  renderVals() {
+    const caps = [
+      ['Neural Network Engine','Advanced deep learning models trained on millions of market patterns to predict price movements with unprecedented accuracy.'],
+      ['Quantum Computing Ready','Future-proof infrastructure designed to leverage quantum computing capabilities for complex financial modeling.'],
+      ['Precision Execution','Sub-millisecond order execution with smart routing to ensure you always get the best available price.'],
+      ['Real-time Analytics','Live market analysis with customizable dashboards and AI-generated insights for informed decision making.'],
+      ['Military-Grade Security','256-bit encryption, multi-factor authentication, and cold storage for maximum asset protection.'],
+      ['Instant Deployment','Deploy your trading strategies in seconds with our intuitive no-code strategy builder.'],
+      ['Multi-Asset Support','Trade across cryptocurrencies, forex, stocks, and commodities from a single unified platform.'],
+      ['Performance Metrics','Comprehensive backtesting and performance tracking with detailed risk analysis reports.']
+    ].map(([t,d],i)=>{ const on = this.state.hover === i; return {n:String(i+1).padStart(2,'0'),t,d,icon:this.icon(i),
+      enter: () => this.setState({ hover: i }),
+      ovOpacity: on ? 1 : 0, ovTransform: on ? 'scale(1)' : 'scale(0.96)'}; });
+    const raw = [['NOV',3.2],['DEC',4.1],['JAN',2.4],['FEB',-1.4],['MAR',5.1],['APR',3.6],['MAY',1.8],['JUN',-0.8],['JUL',4.6],['AUG',3.8],['SEP',2.8],['OCT',4.0]];
+    const months = raw.map(([m,v])=>({m,
+      posH: v>0 ? (v/6*72)+'px' : '0px', negH: v<0 ? (-v/6*72)+'px' : '0px',
+      posLabel: v>0 ? '+'+v.toFixed(1) : '', negLabel: v<0 ? v.toFixed(1) : ''}));
+    const close = () => this.setState({ open:false, sent:false });
+    return {
+      ...this.platformVals(),
+      ...this.calVals(),
+      caps, months, videoRef: this.videoRef,
+      leave: () => this.setState({ hover: null }),
+      modalOpen: this.state.open,
+      notSubmitted: !this.state.sent,
+      submitted: this.state.sent,
+      openModal: () => this.setState({ open:true, sent:false }),
+      closeModal: close,
+      backdropClick: e => { if (e.target === e.currentTarget) close(); },
+      submit: e => { e.preventDefault(); this.setState({ sent:true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

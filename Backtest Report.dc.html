@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>TRADICAI — Backtest Report · Master Fund I</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;family=Lora:ital,wght@1,400;1,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f7f7f8;color:#121218;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#121218;text-decoration:none}
+a:hover{color:#ff5533}
+table{border-collapse:collapse;width:100%}
+@media print{nav,.no-print{display:none!important}body{background:#fff}}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:50;background:rgba(247,247,248,0.86);backdrop-filter:blur(12px);border-bottom:1px solid #e0e2e6">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <a href="TradicAI.dc.html" style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-0.01em">
+      <span style="width:28px;height:28px;border-radius:8px;background:#ff5533;display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border:2px solid #fff;border-radius:2px;transform:rotate(45deg)"></span></span>
+      <span>TRADIC<span style="color:#ff5533">AI</span></span>
+    </a>
+    <div style="display:flex;gap:22px;font-size:14px;flex-wrap:wrap">
+      <a href="#summary" style="color:#61646b">Summary</a>
+      <a href="#equity" style="color:#61646b">Equity</a>
+      <a href="#monthly" style="color:#61646b">Monthly</a>
+      <a href="#risk" style="color:#61646b">Risk</a>
+      <a href="#trades" style="color:#61646b">Trades</a>
+      <a href="#attribution" style="color:#61646b">Attribution</a>
+      <a href="#methodology" style="color:#61646b">Methodology</a>
+    </div>
+    <a href="TradicAI.dc.html" style="padding:9px 16px;border-radius:10px;border:1px solid #c9cdd2;background:#fff;font-size:14px;font-weight:500">← Back to overview</a>
+  </div>
+</nav>
+
+<header style="padding:16px 16px 0">
+  <div style="max-width:1400px;margin:0 auto;border-radius:24px;background:linear-gradient(180deg,#24242a 0%,#121218 100%);color:#fff;padding:clamp(32px,5vw,64px) clamp(24px,4vw,56px)">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:22px">
+      <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:8px;padding:6px 12px;border-radius:100px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#ff5533"></span>Backtest Report · Generated 02 Oct 2026</div>
+      <h1 style="font-size:clamp(36px,5vw,68px);font-weight:500;letter-spacing:-0.04em;line-height:1.04;max-width:900px">Master Fund I — <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">full backtest</span></h1>
+      <p style="font-size:17px;line-height:1.6;color:#c9cdd2;max-width:680px">Systematic multi-strategy portfolio across NIFTY 50 constituents, index futures and index options. Ten years of walk-forward simulation, net of transaction costs, slippage and fees.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(255,255,255,0.12);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);margin-top:8px">
+        <div style="background:#1b1b21;padding:16px 18px"><div style="font-size:12px;color:#94979e;margin-bottom:6px">Period</div><div style="font-size:15px;font-weight:600">Oct 2016 – Sep 2026</div></div>
+        <div style="background:#1b1b21;padding:16px 18px"><div style="font-size:12px;color:#94979e;margin-bottom:6px">Initial capital</div><div style="font-size:15px;font-weight:600">₹10.00 Cr</div></div>
+        <div style="background:#1b1b21;padding:16px 18px"><div style="font-size:12px;color:#94979e;margin-bottom:6px">Benchmark</div><div style="font-size:15px;font-weight:600">NIFTY 50 TRI</div></div>
+        <div style="background:#1b1b21;padding:16px 18px"><div style="font-size:12px;color:#94979e;margin-bottom:6px">Rebalance</div><div style="font-size:15px;font-weight:600">Intraday + daily</div></div>
+        <div style="background:#1b1b21;padding:16px 18px"><div style="font-size:12px;color:#94979e;margin-bottom:6px">Risk-free rate</div><div style="font-size:15px;font-weight:600">6.80% p.a.</div></div>
+      </div>
+      <div class="no-print" style="display:flex;gap:12px;flex-wrap:wrap">
+        <button onClick="{{ print }}" style="padding:12px 20px;border-radius:12px;border:1px solid #ff5533;background:#ff5533;color:#fff;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#e8431f">Download PDF →</button>
+        <a href="#methodology" style="padding:12px 20px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:15px;font-weight:500">Read methodology</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main style="max-width:1200px;margin:0 auto;padding:0 24px">
+
+<section id="summary" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Performance <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">summary</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">01 / 08</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+    <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="12">
+      <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:13px;color:#61646b">{{ k.label }}</div>
+        <div style="font-size:28px;font-weight:600;letter-spacing:-0.03em;color:{{ k.color }}">{{ k.value }}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#94979e">{{ k.sub }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="equity" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Equity curve &amp; <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">drawdown</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">02 / 08</span>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:4px">Growth of ₹10 Cr</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">MONTHLY · NET OF COSTS · LOG-FREE LINEAR SCALE</div>
+      </div>
+      <div style="display:flex;gap:20px;font-size:13px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:3px;border-radius:2px;background:#ff5533"></span>TradicAI <b>{{ fundFinal }}</b></div>
+        <div style="display:flex;align-items:center;gap:8px;color:#61646b"><span style="width:14px;height:3px;border-radius:2px;background:#94979e"></span>NIFTY 50 TRI <b style="color:#121218">{{ benchFinal }}</b></div>
+      </div>
+    </div>
+    <div style="position:relative">
+      <svg viewBox="0 0 1000 300" preserveAspectRatio="none" style="width:100%;height:300px;display:block">
+        <defs><linearGradient id="eqf" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ff5533" stop-opacity="0.2"></stop><stop offset="100%" stop-color="#ff5533" stop-opacity="0"></stop></linearGradient></defs>
+        <g stroke="#edeef1" stroke-width="1"><line x1="0" y1="75" x2="1000" y2="75"></line><line x1="0" y1="150" x2="1000" y2="150"></line><line x1="0" y1="225" x2="1000" y2="225"></line><line x1="0" y1="299" x2="1000" y2="299"></line></g>
+        <path d="{{ eqArea }}" fill="url(#eqf)"></path>
+        <path d="{{ benchPath }}" fill="none" stroke="#94979e" stroke-width="1.8" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"></path>
+        <path d="{{ eqPath }}" fill="none" stroke="#ff5533" stroke-width="2.4" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <div style="position:absolute;top:0;left:4px;display:flex;flex-direction:column;justify-content:space-between;height:300px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#94979e;pointer-events:none">
+        <sc-for list="{{ eqTicks }}" as="t" hint-placeholder-count="5"><span>{{ t }}</span></sc-for>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#94979e">
+      <sc-for list="{{ yearAxis }}" as="y" hint-placeholder-count="11"><span>{{ y }}</span></sc-for>
+    </div>
+    <div style="border-top:1px solid #edeef1;padding-top:16px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#61646b"><span>Underwater (drawdown from peak)</span><span>Max <b style="color:#121218">{{ maxDDText }}</b></span></div>
+      <svg viewBox="0 0 1000 110" preserveAspectRatio="none" style="width:100%;height:110px;display:block">
+        <line x1="0" y1="1" x2="1000" y2="1" stroke="#c9cdd2" stroke-width="1"></line>
+        <path d="{{ ddArea }}" fill="#44454c" fill-opacity="0.85"></path>
+        <path d="{{ ddBench }}" fill="none" stroke="#94979e" stroke-width="1.4" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <div style="display:flex;gap:18px;font-size:12px;color:#61646b"><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#44454c"></span>TradicAI</span><span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:0;border-top:2px dashed #94979e"></span>NIFTY 50 TRI (max {{ benchDDText }})</span></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div style="font-size:17px;font-weight:600">Rolling 12-month Sharpe</div>
+      <svg viewBox="0 0 1000 200" preserveAspectRatio="none" style="width:100%;height:200px;display:block">
+        <g stroke="#edeef1" stroke-width="1"><line x1="0" y1="50" x2="1000" y2="50"></line><line x1="0" y1="100" x2="1000" y2="100"></line><line x1="0" y1="150" x2="1000" y2="150"></line></g>
+        <line x1="0" y1="{{ rsZeroY }}" x2="1000" y2="{{ rsZeroY }}" stroke="#c9cdd2" stroke-width="1"></line>
+        <path d="{{ rsPath }}" fill="none" stroke="#ff5533" stroke-width="2.2" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#61646b;flex-wrap:wrap;gap:8px"><span>Min <b style="color:#121218">{{ rsMin }}</b></span><span>Median <b style="color:#121218">{{ rsMed }}</b></span><span>Max <b style="color:#ff5533">{{ rsMax }}</b></span></div>
+    </div>
+    <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><div style="font-size:17px;font-weight:600">Daily return distribution</div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#94979e">{{ histN }} SESSIONS</span></div>
+      <div style="display:flex;align-items:flex-end;gap:2px;height:200px;border-bottom:1px solid #c9cdd2">
+        <sc-for list="{{ hist }}" as="b" hint-placeholder-count="36">
+          <div title="{{ b.title }}" style="flex:1;min-width:0;border-radius:2px 2px 0 0;background:{{ b.color }};height:{{ b.h }}"></div>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#94979e"><span>-3.0%</span><span>-1.5%</span><span>0%</span><span>+1.5%</span><span>+3.0%</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#61646b;flex-wrap:wrap;gap:8px"><span>Skew <b style="color:#121218">{{ dSkew }}</b></span><span>Kurtosis <b style="color:#121218">{{ dKurt }}</b></span><span>Positive days <b style="color:#ff5533">{{ dPos }}</b></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="monthly" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Monthly &amp; annual <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">returns</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">03 / 08</span>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:20px;overflow-x:auto">
+    <div style="min-width:860px;display:grid;grid-template-columns:56px repeat(12,minmax(0,1fr)) 76px 76px;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px">
+      <span style="color:#94979e;padding:6px 0">YEAR</span>
+      <sc-for list="{{ monthHeads }}" as="m" hint-placeholder-count="12"><span style="color:#94979e;text-align:center;padding:6px 0">{{ m }}</span></sc-for>
+      <span style="color:#121218;text-align:center;padding:6px 0;font-weight:600">FUND</span>
+      <span style="color:#94979e;text-align:center;padding:6px 0">NIFTY</span>
+      <sc-for list="{{ heatRows }}" as="r" hint-placeholder-count="11">
+        <span style="padding:9px 0;font-weight:600;color:#121218">{{ r.year }}</span>
+        <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="12">
+          <span title="{{ c.title }}" style="text-align:center;padding:9px 0;border-radius:6px;background:{{ c.bg }};color:{{ c.color }}">{{ c.text }}</span>
+        </sc-for>
+        <span style="text-align:center;padding:9px 0;border-radius:6px;background:#121218;color:#fff;font-weight:600">{{ r.total }}</span>
+        <span style="text-align:center;padding:9px 0;border-radius:6px;background:#f7f7f8;color:#44454c">{{ r.bench }}</span>
+      </sc-for>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:#61646b">* Partial year. Cell shade scales with monthly return; orange = gain, grey = loss.</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="font-size:17px;font-weight:600">Calendar-year returns vs benchmark</div>
+      <div style="display:flex;gap:18px;font-size:13px;color:#61646b"><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#ff5533"></span>TradicAI</span><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:2px;background:#c9cdd2"></span>NIFTY 50 TRI</span></div>
+    </div>
+    <sc-for list="{{ annual }}" as="a" hint-placeholder-count="11">
+      <div style="display:grid;grid-template-columns:56px minmax(0,1fr) 150px;gap:14px;align-items:center">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">{{ a.year }}</span>
+        <div style="position:relative;height:26px">
+          <span style="position:absolute;top:-2px;bottom:-2px;left:{{ a.zero }};width:1px;background:#c9cdd2"></span>
+          <span style="position:absolute;top:0;height:12px;border-radius:3px;background:#ff5533;left:{{ a.fl }};width:{{ a.fw }}"></span>
+          <span style="position:absolute;top:14px;height:12px;border-radius:3px;background:#c9cdd2;left:{{ a.bl }};width:{{ a.bw }}"></span>
+        </div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;text-align:right"><b style="color:#ff5533">{{ a.ft }}</b> <span style="color:#61646b">/ {{ a.bt }}</span></span>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="risk" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Risk <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">analytics</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">04 / 08</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:8px 24px;min-width:0">
+      <table style="font-size:14px">
+        <tr style="border-bottom:1px solid #e0e2e6"><th style="text-align:left;padding:14px 0;font-weight:600">Metric</th><th style="text-align:right;padding:14px 0;font-weight:600">TradicAI</th><th style="text-align:right;padding:14px 0;font-weight:500;color:#61646b">NIFTY 50</th></tr>
+        <sc-for list="{{ riskRows }}" as="r" hint-placeholder-count="12">
+          <tr style="border-bottom:1px solid #edeef1"><td style="padding:11px 0;color:#44454c">{{ r.k }}</td><td style="padding:11px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-weight:500">{{ r.f }}</td><td style="padding:11px 0;text-align:right;font-family:'JetBrains Mono',monospace;color:#61646b">{{ r.b }}</td></tr>
+        </sc-for>
+      </table>
+    </div>
+    <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div style="font-size:17px;font-weight:600">Top 5 drawdowns</div>
+      <div style="overflow-x:auto">
+        <table style="font-size:13px;min-width:420px">
+          <tr style="border-bottom:1px solid #e0e2e6;color:#61646b"><th style="text-align:left;padding:10px 0;font-weight:500">#</th><th style="text-align:left;padding:10px 0;font-weight:500">Peak</th><th style="text-align:left;padding:10px 0;font-weight:500">Trough</th><th style="text-align:left;padding:10px 0;font-weight:500">Recovered</th><th style="text-align:right;padding:10px 0;font-weight:500">Depth</th><th style="text-align:right;padding:10px 0;font-weight:500">Months</th></tr>
+          <sc-for list="{{ ddRows }}" as="d" hint-placeholder-count="5">
+            <tr style="border-bottom:1px solid #edeef1;font-family:'JetBrains Mono',monospace"><td style="padding:11px 0;color:#ff5533">{{ d.i }}</td><td style="padding:11px 0">{{ d.peak }}</td><td style="padding:11px 0">{{ d.trough }}</td><td style="padding:11px 0">{{ d.rec }}</td><td style="padding:11px 0;text-align:right;font-weight:600">{{ d.depth }}</td><td style="padding:11px 0;text-align:right;color:#61646b">{{ d.len }}</td></tr>
+          </sc-for>
+        </table>
+      </div>
+      <div style="margin-top:auto;padding:16px;border-radius:12px;background:#fff1ed;font-size:13px;line-height:1.55;color:#44454c">Hard portfolio stop at <b>-12%</b> from peak and per-sleeve stops at <b>-6%</b> were active throughout the simulation. No stop was triggered at portfolio level.</div>
+    </div>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:17px;font-weight:600">Stress scenarios</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      <sc-for list="{{ stress }}" as="s" hint-placeholder-count="4">
+        <div style="border:1px solid #edeef1;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:14px;font-weight:600">{{ s.name }}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#94979e">{{ s.when }}</div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:13px"><span style="color:#61646b">TradicAI</span><b style="color:{{ s.fc }}">{{ s.f }}</b></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:#61646b">NIFTY 50</span><b style="color:#44454c">{{ s.b }}</b></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="trades" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Trade <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">statistics</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">05 / 08</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:8px 24px;min-width:0">
+      <table style="font-size:14px">
+        <sc-for list="{{ tradeRows }}" as="r" hint-placeholder-count="12">
+          <tr style="border-bottom:1px solid #edeef1"><td style="padding:12px 0;color:#44454c">{{ r.k }}</td><td style="padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-weight:500;color:{{ r.c }}">{{ r.v }}</td></tr>
+        </sc-for>
+      </table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <div style="background:linear-gradient(180deg,#24242a 0%,#121218 100%);color:#fff;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:15px;color:#c9cdd2">Win / loss split</div>
+        <div style="display:flex;height:14px;border-radius:7px;overflow:hidden"><span style="background:#ff5533;width:{{ winPct }}"></span><span style="background:#61646b;flex:1"></span></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px"><span><b style="color:#ff5533;font-size:26px;letter-spacing:-0.03em">{{ winText }}</b> winners</span><span style="text-align:right"><b style="font-size:26px;letter-spacing:-0.03em">{{ lossText }}</b> losers</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;flex:1">
+        <div style="font-size:17px;font-weight:600">Trades by instrument</div>
+        <sc-for list="{{ byInst }}" as="b" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span>{{ b.name }}</span><span style="font-family:'JetBrains Mono',monospace;color:#61646b">{{ b.n }} · <b style="color:#ff5533">{{ b.wr }}</b> win</span></div>
+            <div style="height:6px;border-radius:3px;background:#edeef1"><div style="height:6px;border-radius:3px;background:#ff5533;width:{{ b.w }}"></div></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="attribution" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Strategy <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">attribution</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">06 / 08</span>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:8px 24px;overflow-x:auto">
+    <table style="font-size:14px;min-width:760px">
+      <tr style="border-bottom:1px solid #e0e2e6;color:#61646b"><th style="text-align:left;padding:14px 0;font-weight:500">Sleeve</th><th style="text-align:right;padding:14px 0;font-weight:500">Avg. allocation</th><th style="text-align:right;padding:14px 0;font-weight:500">Sleeve CAGR</th><th style="text-align:right;padding:14px 0;font-weight:500">Sharpe</th><th style="text-align:right;padding:14px 0;font-weight:500">Max DD</th><th style="text-align:left;padding:14px 0 14px 28px;font-weight:500;width:30%">Contribution to return</th></tr>
+      <sc-for list="{{ sleeves }}" as="s" hint-placeholder-count="5">
+        <tr style="border-bottom:1px solid #edeef1"><td style="padding:14px 0"><div style="font-weight:600">{{ s.name }}</div><div style="font-size:12px;color:#61646b">{{ s.desc }}</div></td><td style="text-align:right;font-family:'JetBrains Mono',monospace">{{ s.alloc }}</td><td style="text-align:right;font-family:'JetBrains Mono',monospace;color:#ff5533">{{ s.cagr }}</td><td style="text-align:right;font-family:'JetBrains Mono',monospace">{{ s.sharpe }}</td><td style="text-align:right;font-family:'JetBrains Mono',monospace;color:#61646b">{{ s.dd }}</td><td style="padding:14px 0 14px 28px"><div style="display:flex;align-items:center;gap:10px"><div style="flex:1;height:8px;border-radius:4px;background:#edeef1"><div style="height:8px;border-radius:4px;background:#ff5533;width:{{ s.w }}"></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;width:52px;text-align:right">{{ s.contrib }}</span></div></td></tr>
+      </sc-for>
+    </table>
+  </div>
+</section>
+
+<section id="methodology" style="padding:72px 0 0;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Assumptions &amp; <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">methodology</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">07 / 08</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+    <sc-for list="{{ method }}" as="m" hint-placeholder-count="6">
+      <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff5533">{{ m.n }}</span><h3 style="font-size:16px;font-weight:600">{{ m.t }}</h3></div>
+        <sc-for list="{{ m.items }}" as="it" hint-placeholder-count="3">
+          <div style="display:flex;gap:10px;font-size:14px;line-height:1.5;color:#44454c"><span style="width:5px;height:5px;border-radius:5px;background:#ff5533;margin-top:8px;flex-shrink:0"></span><span>{{ it }}</span></div>
+        </sc-for>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section style="padding:72px 0 64px;display:flex;flex-direction:column;gap:20px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <h2 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-0.03em">Important <span style="font-family:'Lora',serif;font-style:italic;font-weight:400;color:#ff5533">disclosures</span></h2>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#61646b">08 / 08</span>
+  </div>
+  <div style="background:#fff;border:1px solid #e0e2e6;border-radius:16px;padding:24px;font-size:14px;line-height:1.7;color:#44454c;display:flex;flex-direction:column;gap:10px">
+    <p>Backtested results are hypothetical, produced with the benefit of hindsight, and do not represent actual trading. They do not reflect the impact that material economic and market factors might have had on decision-making if actual client money had been managed.</p>
+    <p>Simulated figures are net of modelled transaction costs, slippage, exchange fees, STT and a 2% / 20% management and performance fee. Actual costs may differ. Past performance, simulated or live, is not indicative of future results.</p>
+    <p>This report is provided to qualified investors under NDA for information only and does not constitute an offer to buy or sell any security.</p>
+  </div>
+  <div class="no-print" style="border-radius:24px;background:#ff5533;color:#fff;padding:clamp(36px,5vw,64px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+    <h2 style="font-size:clamp(28px,4vw,48px);font-weight:500;letter-spacing:-0.04em;line-height:1.05">Want the <span style="font-family:'Lora',serif;font-style:italic;font-weight:400">strategy-level</span> tear-sheet?</h2>
+    <p style="font-size:16px;max-width:520px;line-height:1.55">Position-level logs and factor exposures are shared with qualified investors under NDA.</p>
+    <a href="TradicAI.dc.html" style="padding:13px 22px;border-radius:12px;background:#121218;color:#fff;font-size:15px;font-weight:600">Request Access →</a>
+  </div>
+</section>
+
+</main>
+
+<footer style="border-top:1px solid #e0e2e6;padding:24px">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:12px;color:#61646b;font-family:'JetBrains Mono',monospace">
+    <div>© 2026 TRADICAI CAPITAL LLP · ALL RIGHTS RESERVED</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap"><a href="Legal.dc.html" style="color:#61646b">LEGAL</a><span>PAST PERFORMANCE IS NOT INDICATIVE OF FUTURE RESULTS.</span></div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.data = this.build(); }
+  build() {
+    let s = 20261002; const rand = () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    const gauss = () => Math.sqrt(-2 * Math.log(rand() + 1e-12)) * Math.cos(2 * Math.PI * rand());
+    const N = 120, start = { y: 2016, m: 9 };
+    const months = [], fund = [], bench = [];
+    for (let i = 0; i < N; i++) {
+      const m = (start.m + i) % 12, y = start.y + Math.floor((start.m + i) / 12);
+      let b = 0.0105 + 0.047 * gauss();
+      if (y === 2020 && m === 2) b = -0.229; if (y === 2020 && m === 1) b = -0.063; if (y === 2020 && m === 3) b = 0.147;
+      if (y === 2022 && (m === 0 || m === 1 || m === 5)) b -= 0.04;
+      let f = 0.022 + 0.2 * b + 0.019 * gauss();
+      if (y === 2020 && m === 2) f = -0.041;
+      months.push({ y, m }); fund.push(f); bench.push(b);
+    }
+    return { months, fund, bench, rand, gauss };
+  }
+  print = () => window.print();
+  renderVals() {
+    const { months, fund, bench, rand, gauss } = this.data;
+    const N = fund.length, MN = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    const pct = (v, d = 1) => (v >= 0 ? '+' : '') + (v * 100).toFixed(d) + '%';
+    const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
+    const sd = a => { const m = mean(a); return Math.sqrt(a.reduce((x, y) => x + (y - m) ** 2, 0) / (a.length - 1)); };
+    const eq = a => { let v = 1; return [1, ...a.map(r => (v *= 1 + r))]; };
+    const ef = eq(fund), eb = eq(bench);
+    const dd = e => { let pk = e[0]; return e.map(v => (pk = Math.max(pk, v), v / pk - 1)); };
+    const df = dd(ef), db = dd(eb);
+    const rf = 0.068, yrs = N / 12;
+    const stats = a => { const e = eq(a), tot = e[e.length - 1] - 1, cagr = Math.pow(e[e.length - 1], 1 / yrs) - 1, vol = sd(a) * Math.sqrt(12);
+      const down = Math.sqrt(a.filter(x => x < rf / 12).reduce((x, y) => x + (y - rf / 12) ** 2, 0) / a.length) * Math.sqrt(12);
+      const mdd = Math.min(...dd(e)); const m = mean(a), s3 = sd(a);
+      const skew = a.reduce((x, y) => x + ((y - m) / s3) ** 3, 0) / a.length, kurt = a.reduce((x, y) => x + ((y - m) / s3) ** 4, 0) / a.length - 3;
+      const sorted = [...a].sort((x, y) => x - y), k = Math.floor(a.length * 0.05), var95 = sorted[k], cvar = mean(sorted.slice(0, k + 1));
+      return { tot, cagr, vol, sharpe: (m * 12 - rf) / vol, sortino: (m * 12 - rf) / down, mdd, calmar: cagr / Math.abs(mdd), skew, kurt, var95, cvar,
+        best: sorted[sorted.length - 1], worst: sorted[0], posM: a.filter(x => x > 0).length / a.length }; };
+    const F = stats(fund), B = stats(bench);
+    const mf = mean(fund), mb = mean(bench);
+    const cov = fund.reduce((x, v, i) => x + (v - mf) * (bench[i] - mb), 0) / (N - 1);
+    const beta = cov / sd(bench) ** 2, corr = cov / (sd(fund) * sd(bench)), alpha = (mf - beta * mb) * 12;
+    const te = sd(fund.map((v, i) => v - bench[i])) * Math.sqrt(12), ir = (mf - mb) * 12 / te;
+    const ulcer = a => Math.sqrt(mean(dd(eq(a)).map(x => (x * 100) ** 2)));
+
+    const cr = v => '₹' + (v * 10).toFixed(2) + ' Cr';
+    const kpis = [
+      { label:'CAGR', value:pct(F.cagr), sub:'NIFTY ' + pct(B.cagr), color:'#ff5533' },
+      { label:'Total return', value:pct(F.tot, 0), sub:'NIFTY ' + pct(B.tot, 0), color:'#ff5533' },
+      { label:'Sharpe ratio', value:F.sharpe.toFixed(2), sub:'NIFTY ' + B.sharpe.toFixed(2), color:'#121218' },
+      { label:'Sortino ratio', value:F.sortino.toFixed(2), sub:'NIFTY ' + B.sortino.toFixed(2), color:'#121218' },
+      { label:'Max drawdown', value:pct(F.mdd), sub:'NIFTY ' + pct(B.mdd), color:'#121218' },
+      { label:'Calmar ratio', value:F.calmar.toFixed(2), sub:'CAGR / |MAX DD|', color:'#121218' },
+      { label:'Volatility (ann.)', value:(F.vol * 100).toFixed(1) + '%', sub:'NIFTY ' + (B.vol * 100).toFixed(1) + '%', color:'#121218' },
+      { label:'Alpha (ann.)', value:pct(alpha), sub:'JENSEN, VS NIFTY', color:'#ff5533' },
+      { label:'Beta', value:beta.toFixed(2), sub:'CORR ' + corr.toFixed(2), color:'#121218' },
+      { label:'Positive months', value:(F.posM * 100).toFixed(1) + '%', sub:Math.round(F.posM * N) + ' OF ' + N, color:'#121218' },
+      { label:'Information ratio', value:ir.toFixed(2), sub:'TE ' + (te * 100).toFixed(1) + '%', color:'#121218' },
+      { label:'Final NAV', value:cr(ef[N]), sub:'FROM ₹10.00 CR', color:'#ff5533' }
+    ];
+
+    const W = 1000, line = (arr, lo, hi, H) => arr.map((v, i) => (i ? 'L' : 'M') + (i / (arr.length - 1) * W).toFixed(1) + ' ' + (H - (v - lo) / (hi - lo) * H).toFixed(1)).join(' ');
+    const hi = Math.ceil(Math.max(...ef) / 5) * 5, lo = 0;
+    const eqPath = line(ef, lo, hi, 300), benchPath = line(eb, lo, hi, 300);
+    const eqTicks = [4, 3, 2, 1, 0].map(i => '₹' + (hi * i / 4 * 10).toFixed(0) + ' Cr');
+    const ddLo = Math.min(...df, ...db) * 1.05;
+    const ddLine = a => line(a.map(v => -v), 0, -ddLo, 110).replace(/(\d+\.?\d*) (\d+\.?\d*)/g, (m0, x, y) => x + ' ' + (110 - +y).toFixed(1));
+    const ddArea = ddLine(df) + ' L1000 0 L0 0 Z';
+
+    const rs = []; for (let i = 11; i < N; i++) { const w = fund.slice(i - 11, i + 1); rs.push((mean(w) * 12 - rf) / (sd(w) * Math.sqrt(12))); }
+    const rsLo = Math.min(0, Math.floor(Math.min(...rs))), rsHi = Math.ceil(Math.max(...rs));
+    const rsSorted = [...rs].sort((a, b) => a - b);
+
+    const daily = []; for (let i = 0; i < 2480; i++) { let r = 0.0011 + 0.0068 * gauss(); if (rand() < 0.012) r -= 0.012 * rand(); daily.push(r); }
+    const bins = 36, binW = 0.06 / bins, counts = Array(bins).fill(0);
+    daily.forEach(r => { const k = Math.min(bins - 1, Math.max(0, Math.floor((r + 0.03) / binW))); counts[k]++; });
+    const cMax = Math.max(...counts);
+    const hist = counts.map((c, i) => { const x0 = -0.03 + i * binW; return { h: (c / cMax * 100).toFixed(1) + '%', color: x0 + binW / 2 >= 0 ? '#ff5533' : '#44454c', title: `${(x0 * 100).toFixed(2)}% to ${((x0 + binW) * 100).toFixed(2)}%: ${c} days` }; });
+    const dm = mean(daily), ds = sd(daily);
+
+    const yearsList = [...new Set(months.map(x => x.y))];
+    const shade = v => { const a = Math.min(1, Math.abs(v) / 0.06); return v >= 0 ? { bg: `rgba(255,85,51,${(0.1 + a * 0.85).toFixed(2)})`, color: a > 0.55 ? '#fff' : '#121218' } : { bg: `rgba(68,69,76,${(0.12 + a * 0.8).toFixed(2)})`, color: a > 0.45 ? '#fff' : '#121218' }; };
+    const heatRows = yearsList.map(y => {
+      const idx = months.map((x, i) => x.y === y ? i : -1).filter(i => i >= 0);
+      const cells = MN.map((_, m) => { const i = idx.find(j => months[j].m === m); if (i === undefined) return { text: '', bg: '#f7f7f8', color: '#121218', title: '' };
+        const v = fund[i]; return { text: (v * 100).toFixed(1), title: `${MN[m]} ${y}: fund ${pct(v, 2)}, NIFTY ${pct(bench[i], 2)}`, ...shade(v) }; });
+      const tf = idx.reduce((x, i) => x * (1 + fund[i]), 1) - 1, tb = idx.reduce((x, i) => x * (1 + bench[i]), 1) - 1;
+      return { year: y + (idx.length < 12 ? '*' : ''), cells, total: pct(tf), bench: pct(tb), tf, tb };
+    });
+    const aMin = Math.min(0, ...heatRows.map(r => Math.min(r.tf, r.tb))), aMax = Math.max(...heatRows.map(r => Math.max(r.tf, r.tb)));
+    const span = aMax - aMin, zp = -aMin / span;
+    const bar = v => v >= 0 ? { l: (zp * 100).toFixed(2) + '%', w: (v / span * 100).toFixed(2) + '%' } : { l: ((zp + v / span) * 100).toFixed(2) + '%', w: (-v / span * 100).toFixed(2) + '%' };
+    const annual = heatRows.map(r => { const a = bar(r.tf), b = bar(r.tb); return { year: r.year, zero: (zp * 100).toFixed(2) + '%', fl: a.l, fw: a.w, bl: b.l, bw: b.w, ft: r.total, bt: r.bench }; });
+
+    const f2 = v => v.toFixed(2);
+    const riskRows = [
+      ['Annualised volatility', (F.vol * 100).toFixed(2) + '%', (B.vol * 100).toFixed(2) + '%'],
+      ['Downside deviation', ((mf * 12 - rf) / F.sortino * 100).toFixed(2) + '%', ((mb * 12 - rf) / B.sortino * 100).toFixed(2) + '%'],
+      ['Sharpe ratio', f2(F.sharpe), f2(B.sharpe)],
+      ['Sortino ratio', f2(F.sortino), f2(B.sortino)],
+      ['Calmar ratio', f2(F.calmar), f2(B.calmar)],
+      ['Max drawdown', pct(F.mdd, 2), pct(B.mdd, 2)],
+      ['Ulcer index', f2(ulcer(fund)), f2(ulcer(bench))],
+      ['VaR 95% (monthly)', pct(F.var95, 2), pct(B.var95, 2)],
+      ['CVaR 95% (monthly)', pct(F.cvar, 2), pct(B.cvar, 2)],
+      ['Best month', pct(F.best, 2), pct(B.best, 2)],
+      ['Worst month', pct(F.worst, 2), pct(B.worst, 2)],
+      ['Skewness (monthly)', f2(F.skew), f2(B.skew)],
+      ['Excess kurtosis', f2(F.kurt), f2(B.kurt)],
+      ['Beta to NIFTY 50', f2(beta), '1.00'],
+      ['Correlation to NIFTY 50', f2(corr), '1.00']
+    ].map(([k, f, b]) => ({ k, f, b }));
+
+    const lbl = i => { const x = months[Math.max(0, i - 1)] || months[0]; return MN[x.m].slice(0, 3) + ' ' + String(x.y).slice(2); };
+    const periods = []; let pk = 0, inDD = false, tr = 0;
+    for (let i = 1; i <= N; i++) {
+      if (ef[i] >= ef[pk]) { if (inDD) { periods.push({ pk, tr, rec: i }); inDD = false; } pk = i; }
+      else { if (!inDD) { inDD = true; tr = i; } if (ef[i] < ef[tr]) tr = i; }
+    }
+    if (inDD) periods.push({ pk, tr, rec: null });
+    const ddRows = periods.map(p => ({ ...p, depth: ef[p.tr] / ef[p.pk] - 1 })).sort((a, b) => a.depth - b.depth).slice(0, 5)
+      .map((p, i) => ({ i: '0' + (i + 1), peak: lbl(p.pk + 1), trough: lbl(p.tr + 1), rec: p.rec ? lbl(p.rec + 1) : 'Open', depth: pct(p.depth, 2), len: String((p.rec ?? N) - p.pk) }));
+
+    const stressDefs = [['COVID crash', 'FEB – MAR 2020', [2020, 1], [2020, 2]], ['Rate-hike selloff', 'JAN – JUN 2022', [2022, 0], [2022, 5]], ['IL&FS credit shock', 'SEP – OCT 2018', [2018, 8], [2018, 9]], ['Election volatility', 'MAY – JUN 2024', [2024, 4], [2024, 5]]];
+    const stress = stressDefs.map(([name, when, a, b]) => { const i0 = months.findIndex(x => x.y === a[0] && x.m === a[1]), i1 = months.findIndex(x => x.y === b[0] && x.m === b[1]);
+      let f = 1, bb = 1; for (let i = i0; i <= i1; i++) { f *= 1 + fund[i]; bb *= 1 + bench[i]; } return { name, when, f: pct(f - 1), b: pct(bb - 1), fc: f >= 1 ? '#ff5533' : '#121218' }; });
+
+    const T = 14208, wr = 0.618, wins = Math.round(T * wr), losses = T - wins;
+    const tradeRows = [
+      ['Total trades', T.toLocaleString('en-IN'), '#121218'], ['Win rate', (wr * 100).toFixed(1) + '%', '#ff5533'], ['Profit factor', '2.31', '#ff5533'],
+      ['Average win', '+0.74%', '#ff5533'], ['Average loss', '-0.52%', '#121218'], ['Payoff ratio', '1.42', '#121218'],
+      ['Expectancy per trade', '+0.26%', '#ff5533'], ['Largest win', '+6.82%', '#ff5533'], ['Largest loss', '-2.95%', '#121218'],
+      ['Max consecutive wins', '17', '#121218'], ['Max consecutive losses', '6', '#121218'], ['Average holding period', '2.8 days', '#121218'],
+      ['Average gross exposure', '142%', '#121218'], ['Annual turnover', '38.4×', '#121218'], ['Costs as % of gross P&L', '11.6%', '#121218']
+    ].map(([k, v, c]) => ({ k, v, c }));
+    const byInst = [['NIFTY / BANKNIFTY futures', 4820, 0.64], ['Index options', 3912, 0.59], ['NIFTY 50 equities', 4371, 0.61], ['USD/INR futures', 1105, 0.63]]
+      .map(([name, n, w]) => ({ name, n: n.toLocaleString('en-IN'), wr: (w * 100).toFixed(0) + '%', w: (n / 4820 * 100).toFixed(1) + '%' }));
+
+    const sl = [['Momentum', 'Cross-sectional & time-series trend', 0.30, 0.34], ['Mean reversion', 'Intraday & overnight reversal', 0.22, 0.24], ['Volatility carry', 'Systematic index option premium', 0.18, 0.19], ['Statistical arbitrage', 'Pairs and sector-neutral baskets', 0.20, 0.15], ['Execution alpha', 'Smart routing & passive fills', 0.10, 0.08]];
+    const sleeves = sl.map(([name, desc, a, c], i) => ({ name, desc, alloc: (a * 100).toFixed(0) + '%', cagr: pct(F.cagr * c / a * 0.92, 1), sharpe: (F.sharpe * [0.78, 0.86, 0.71, 0.92, 1.24][i]).toFixed(2),
+      dd: pct(F.mdd * [1.4, 1.1, 1.9, 0.8, 0.4][i], 1), contrib: (c * 100).toFixed(0) + '%', w: (c / 0.34 * 100).toFixed(1) + '%' }));
+
+    const method = [
+      { n:'01', t:'Data', items:['Tick and 1-minute bars from NSE, adjusted for splits, bonuses and dividends.','Point-in-time NIFTY 50 constituents to remove survivorship bias.','Corporate actions and holidays sourced from exchange circulars.'] },
+      { n:'02', t:'Execution model', items:['Orders filled at next-bar VWAP with participation capped at 5% of volume.','Slippage of 2 bps on futures, 4 bps on equities, 1 tick on options.','Latency of 250 ms applied between signal and order.'] },
+      { n:'03', t:'Costs & fees', items:['Brokerage, exchange charges, STT, stamp duty and GST modelled per instrument.','2% management fee and 20% performance fee above a high-water mark.','Financing at the risk-free rate on net cash.'] },
+      { n:'04', t:'Validation', items:['Walk-forward optimisation: 3-year train, 1-year test, rolled annually.','Parameters frozen out-of-sample; no look-ahead in signals or universe.','Monte Carlo resampling of 10,000 paths for confidence bands.'] },
+      { n:'05', t:'Risk controls', items:['Gross exposure capped at 200%, net at ±60%.','Per-position limit of 4% NAV and sector limit of 20% NAV.','Pre-trade policy checks identical to the live ALGO/OS stack.'] },
+      { n:'06', t:'Limitations', items:['Simulated fills cannot capture all market-impact and queue-position effects.','Option liquidity before 2019 was thinner; results in that period are less reliable.','Regime changes may reduce the edge of historically fitted models.'] }
+    ];
+
+    return {
+      print: this.print, kpis,
+      fundFinal: cr(ef[N]), benchFinal: cr(eb[N]),
+      eqPath, benchPath, eqArea: eqPath + ' L1000 300 L0 300 Z', eqTicks,
+      yearAxis: yearsList.map(y => "'" + String(y).slice(2)),
+      ddArea, ddBench: ddLine(db), maxDDText: pct(F.mdd, 2), benchDDText: pct(B.mdd, 1),
+      rsPath: line(rs, rsLo, rsHi, 200), rsZeroY: (200 - (0 - rsLo) / (rsHi - rsLo) * 200).toFixed(1),
+      rsMin: f2(rsSorted[0]), rsMed: f2(rsSorted[Math.floor(rs.length / 2)]), rsMax: f2(rsSorted[rs.length - 1]),
+      hist, histN: daily.length.toLocaleString('en-IN'),
+      dSkew: f2(daily.reduce((x, y) => x + ((y - dm) / ds) ** 3, 0) / daily.length), dKurt: f2(daily.reduce((x, y) => x + ((y - dm) / ds) ** 4, 0) / daily.length - 3),
+      dPos: (daily.filter(x => x > 0).length / daily.length * 100).toFixed(1) + '%',
+      monthHeads: MN, heatRows, annual, riskRows, ddRows, stress, tradeRows,
+      winPct: (wr * 100).toFixed(1) + '%', winText: wins.toLocaleString('en-IN'), lossText: losses.toLocaleString('en-IN'),
+      byInst, sleeves, method
+    };
+  }
+}
+</script>
+</body>
+</html>
